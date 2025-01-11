@@ -8,6 +8,10 @@
     margin-top: 0;
   }
 
+  .tiptap {
+    @apply px-2 py-1;
+  }
+
   /* List styles */
   .tiptap ul{
     @apply pl-4 mt-5 mb-5 list-disc;
@@ -136,7 +140,7 @@
 
 @layer base {
   * {
-    @apply border-slate-500;
+    @apply border-slate-500 ;
   }
   body {
     @apply font-sans antialiased ;

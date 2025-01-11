@@ -1,6 +1,10 @@
 import { Editor } from "@tiptap/react"
 import { useCallback } from "react"
 import {
+  RiAlignCenter,
+  RiAlignJustify,
+  RiAlignLeft,
+  RiAlignRight,
   RiBold,
   RiCodeBlock,
   RiCodeLine,
@@ -133,6 +137,34 @@ export const EditorControls = ({ editor }: Props) => {
           className={` px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
         >
           <RiImageLine />
+        </button>
+
+        <button
+          onClick={() => editor.chain().focus().setTextAlign('left').run()}
+          className={`${editor.isActive({ textAlign: 'left' }) ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
+        >
+          <RiAlignLeft />
+        </button>
+
+        <button
+          onClick={() => editor.chain().focus().setTextAlign('center').run()}
+          className={`${editor.isActive({ textAlign: 'center' }) ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
+        >
+          <RiAlignCenter />
+        </button>
+
+        <button
+          onClick={() => editor.chain().focus().setTextAlign('right').run()}
+          className={`${editor.isActive({ textAlign: 'right' }) ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
+        >
+          <RiAlignRight />
+        </button>
+
+        <button
+          onClick={() => editor.chain().focus().setTextAlign('justify').run()}
+          className={`${editor.isActive({ textAlign: 'justify' }) ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
+        >
+          <RiAlignJustify />
         </button>
 
       </div>

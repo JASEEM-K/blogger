@@ -10,6 +10,8 @@ import Image from '@tiptap/extension-image'
 import Highlight from '@tiptap/extension-highlight'
 import Underline from '@tiptap/extension-underline'
 import Link from '@tiptap/extension-link'
+import Typography from '@tiptap/extension-typography'
+import TextAlign from '@tiptap/extension-text-align'
 
 
 
@@ -21,6 +23,10 @@ export const EditorPage = () => {
       Highlight,
       Underline,
       Link,
+      Typography,
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
+      }),
       FileHandler.configure({
         allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
         onDrop: (currentEditor, files, pos) => {
@@ -76,9 +82,15 @@ export const EditorPage = () => {
   return (
     <div className='mx-auto max-w-screen-md p-4 '>
 
+      <button className='border border-slate-500 rounded-md p-4' >
+        save
+      </button>
+
       <EditorControls editor={editor} />
 
-      <EditorContent className='tiptap px-4' editor={editor} />
+      <EditorContent className='tiptap ' editor={editor} />
+
+
     </div>
   )
 }
