@@ -1,4 +1,5 @@
 import { Editor } from "@tiptap/react"
+import { useCallback } from "react"
 
 interface Props {
   editor: Editor
@@ -6,6 +7,14 @@ interface Props {
 
 
 export const EditorControls = ({ editor }: Props) => {
+
+  const addImage = useCallback(() => {
+    const url = window.prompt("Url")
+
+    if (url) {
+      editor.chain().focus().setImage({ src: url }).run()
+    }
+  }, [editor])
 
 
   return (
@@ -50,21 +59,21 @@ export const EditorControls = ({ editor }: Props) => {
 
         <button
           onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-          className={`${editor.isActive('codeblock') ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
+          className={`${editor.isActive('codeBlock') ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
         >
           Code
         </button>
 
         <button
           onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={`${editor.isActive('bulletlist') ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
+          className={`${editor.isActive('bulletList') ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
         >
           list
         </button>
 
         <button
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          className={`${editor.isActive('orderedlist') ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
+          className={`${editor.isActive('orderedList') ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
         >
           Ordered list
         </button>
@@ -77,10 +86,10 @@ export const EditorControls = ({ editor }: Props) => {
         </button>
 
         <button
-          onClick={() => editor.chain().focus().toggleMark().run()}
-          className={`${editor.isActive('mark') ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
+          onClick={addImage}
+          className={` px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
         >
-          Qoute
+          Image
         </button>
 
       </div>

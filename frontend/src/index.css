@@ -1,3 +1,148 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+@layer base {
+  .tiptap :first-child {
+    margin-top: 0;
+  }
+
+  /* List styles */
+  .tiptap ul{
+    @apply pl-4 mt-5 mb-5 list-disc;
+  }
+  .tiptap ol {
+    @apply pl-4 mx-4 mt-5 mb-5 list-decimal ; /* Use Tailwind utilities */
+  }
+
+  .tiptap li p {
+    @apply mt-1 mb-1 list-disc ;
+  }
+
+  .tiptap img {
+    @apply block m-2;
+  }
+
+  .tiptap .ProseMirror-selectednode img {
+    @apply m-2 border-2 border-purple-500  ;
+  }
+
+  .tiptap .ProseMirror img.ProseMirror-selectednode {
+    @apply m-2 border-2 border-purple-500  ;
+  }
+
+  .is-active {
+    @apply text-blue-500 ;
+  }
+
+  /* Heading styles */
+  .tiptap h1 {
+    @apply text-4xl font-bold mt-14 mb-6; /* Responsive typography */
+  }
+
+  .tiptap h2 {
+    @apply text-3xl font-semibold mt-12 mb-6;
+  }
+
+  .tiptap h3 {
+    @apply text-xl font-medium mt-10 mb-4;
+  }
+
+  .tiptap h4 {
+    @apply text-lg font-medium mt-10 mb-4;
+  },
+  .tiptap h5,
+  .tiptap h6 {
+    @apply text-base font-medium mt-8 mb-4;
+  }
+
+  /* Code and preformatted text styles */
+  .tiptap code {
+    @apply bg-slate-300  rounded-md text-sm p-2 ; /* Matches your custom variables */
+  }
+
+  .tiptap pre {
+    @apply bg-black text-white rounded-lg p-4 my-6;
+    font-family: 'JetBrainsMono', monospace;
+  }
+
+  .tiptap pre code {
+    @apply text-white text-xs p-0 bg-transparent;
+  }
+
+  /* Highlighting */
+  .tiptap mark {
+    @apply bg-yellow-200 rounded-sm px-1;
+  }
+
+  /* Blockquote */
+  .tiptap blockquote {
+    @apply border-l-4 border-gray-300 pl-4 italic my-6;
+  }
+
+  /* Horizontal Rule */
+  .tiptap hr {
+    @apply border-t border-gray-200 my-8;
+  }
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 47.4% 11.2%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 47.4% 11.2%;
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 210 40% 98%;
+    --ring: 215 20.2% 65.1%;
+    --radius: 0.5rem;
+  }
+
+  .dark {
+    --background: 224 71% 4%;
+    --foreground: 213 31% 91%;
+    --muted: 223 47% 11%;
+    --muted-foreground: 215.4 16.3% 56.9%;
+    --accent: 216 34% 17%;
+    --accent-foreground: 210 40% 98%;
+    --popover: 224 71% 4%;
+    --popover-foreground: 215 20.2% 65.1%;
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
+    --card: 224 71% 4%;
+    --card-foreground: 213 31% 91%;
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 1.2%;
+    --secondary: 222.2 47.4% 11.2%;
+    --secondary-foreground: 210 40% 98%;
+    --destructive: 0 63% 31%;
+    --destructive-foreground: 210 40% 98%;
+    --ring: 216 34% 17%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-slate-500;
+  }
+  body {
+    @apply font-sans antialiased ;
+  }
+}
+
+.ProseMirror img.ProseMirror-selectednode {
+  outline: 3px solid purple !important; /* Use !important to override any styles */
+}
