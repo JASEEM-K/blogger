@@ -84,8 +84,14 @@ export const LoginPage = () => {
           </button >
         </div>
 
-
       </form >
+
+      <p>Already have an&nbsp;
+        <a href='/register'
+        >account</a></p>
+
+      <a href='/forgot'
+      >Forgot Password</a>
 
     </div >
   )
