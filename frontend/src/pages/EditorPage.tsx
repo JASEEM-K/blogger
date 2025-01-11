@@ -7,6 +7,9 @@ import StarterKit from '@tiptap/starter-kit'
 import { EditorControls } from '../components/EditorControls'
 import FileHandler from '@tiptap-pro/extension-file-handler'
 import Image from '@tiptap/extension-image'
+import Highlight from '@tiptap/extension-highlight'
+import Underline from '@tiptap/extension-underline'
+import Link from '@tiptap/extension-link'
 
 
 
@@ -15,6 +18,9 @@ export const EditorPage = () => {
     extensions: [
       StarterKit,
       Image,
+      Highlight,
+      Underline,
+      Link,
       FileHandler.configure({
         allowedMimeTypes: ['image/png', 'image/jpeg', 'image/gif', 'image/webp'],
         onDrop: (currentEditor, files, pos) => {
@@ -57,6 +63,11 @@ export const EditorPage = () => {
       })
     ],
     content: `<p>Write your Blog</p>`,
+    editorProps: {
+      attributes: {
+        spellcheck: "false",
+      }
+    }
   })
 
   if (!editor) {
