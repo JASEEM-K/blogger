@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken'
+import jwt, { JsonWebTokenError, TokenExpiredError } from 'jsonwebtoken'
 import { UserDocument } from "../models/user.model"
 import { JWT_SECRET, NODE_ENV } from '../constants/env'
 import { Response } from 'express'
@@ -23,10 +23,16 @@ export const signToken = (payload: PayloadType, res: Response) => {
 
 export const verifyToken = (token: string) => {
 	try {
-		const decode = jwt.verify(token, JWT_SECRET)
+		const decode = jwt.verify(token, JWT_SECRET) as PayloadType
 		return { decode }
 	} catch (error) {
-		return { error }
+		if (error instanceof TokenExpiredError) {
+			return { errorMessage: "token expired" }
+		} else if (error instanceof JsonWebTokenError) {
+			return { errorMessage: "Invalid token" }
+		} else {
+			return { errorMessage: "token expired" }
+		}
 	}
 
 }
