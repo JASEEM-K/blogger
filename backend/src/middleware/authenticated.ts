@@ -12,15 +12,17 @@ export const authenticated = async (req: Request, res: Response, next: NextFunct
 			res.status(UNAUTHORIZED).json({
 				message: errorMessage
 			})
+			return
 		}
 
-		if (!decode) {
+		if (typeof decode === "undefined") {
 			res.status(UNAUTHORIZED).json({
 				message: "Invalid token"
 			})
+			return
 		}
 
-		const user = await UserModel.findById(decode?.userId)
+		const user = await UserModel.findById(decode.userId)
 
 		if (!user) {
 			res.status(NOT_FOUND).json({
@@ -28,7 +30,7 @@ export const authenticated = async (req: Request, res: Response, next: NextFunct
 			})
 		}
 
-		req.userId = decode?.userId
+		req.userId = decode.userId
 
 		next()
 	} catch (error) {

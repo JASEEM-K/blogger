@@ -7,16 +7,18 @@ export interface UserDocument extends Document {
 	username: string;
 	email: string;
 	password: string;
+	verified: boolean;
 	createdAt: Date;
 	updatedAt: Date;
 	comparePassword(val: string): Promise<boolean>;
-	omitPassword(): Pick<UserDocument, "_id" | "email" | "username" | "createdAt" | "updatedAt">
+	omitPassword(): Pick<UserDocument, "_id" | "email" | "verified" | "username" | "createdAt" | "updatedAt">
 }
 
 const userSchema = new mongoose.Schema<UserDocument>({
 	email: { type: String, required: true, unique: true },
 	username: { type: String, required: true, unique: true },
 	password: { type: String, required: true },
+	verified: { type: Boolean, default: false },
 }, { timestamps: true })
 
 userSchema.pre("save", async function(next) {
