@@ -2,7 +2,7 @@ import mongoose, { Document } from "mongoose";
 import { compareValue, hashValue } from "../utils/bcrypt";
 
 
-interface UserDocument extends Document {
+export interface UserDocument extends Document {
 	_id: mongoose.Types.ObjectId,
 	username: string;
 	email: string;

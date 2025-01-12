@@ -4,6 +4,7 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser'
 
 import { APP_ORIGIN, PORT } from './constants/env'
+import { connectDB } from './config/db'
 
 const app = express()
 app.use(express.json())
@@ -21,4 +22,5 @@ app.use(cors({
 
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`);
+	connectDB()
 })
