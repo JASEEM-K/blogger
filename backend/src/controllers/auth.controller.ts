@@ -1,13 +1,13 @@
 import { Request, Response } from 'express'
-import { loginSchema, registerSchema, verifyIdSchema } from './auth.schema'
+import { emailSchema, loginSchema, registerSchema, verifyIdSchema } from './auth.schema'
 import UserModel from '../models/user.model'
 import { CONFLICT, INTERNAL_SERVER_ERROR, NOT_FOUND, OK, UNAUTHORIZED } from '../constants/http'
 import { compareValue } from '../utils/bcrypt'
-import { signToken, tokenOptions } from '../utils/jwt'
+import { signToken } from '../utils/jwt'
 import VerifyModel from '../models/verify.model'
 import { APP_ORIGIN } from '../constants/env'
 import { sendMail } from '../utils/resend'
-import { getVerifyEmailTemplate } from '../utils/emailTemplate'
+import { getPasswordResetTemplate, getVerifyEmailTemplate } from '../utils/emailTemplate'
 
 
 export const registerHandler = async (req: Request, res: Response) => {
@@ -42,7 +42,8 @@ export const registerHandler = async (req: Request, res: Response) => {
 		})
 
 		const verifyVal = await VerifyModel.create({
-			author: newUser._id
+			author: newUser._id,
+			type: "emailVerify"
 		})
 		const url = `${APP_ORIGIN}/auth/email/verify/${verifyVal._id}`
 		const { error } = await sendMail({
@@ -126,6 +127,97 @@ export const verifyEmailHandler = async (req: Request, res: Response) => {
 		if (!verify) {
 			res.status(UNAUTHORIZED).json({
 				message: "Invalid code"
+			})
+			return
+		}
+
+		if (verify.type !== "emailVerify") {
+			res.status(UNAUTHORIZED).json({
+				message: "Wrong code"
+			})
+			return
+		}
+
+		if (verify.author !== req.userId) {
+			res.status(UNAUTHORIZED).json({
+				message: "Invalid code: Not a your code"
+			})
+			return
+		}
+
+		const newUser = await UserModel.findOneAndUpdate(req.userId, { verified: true }, { new: true })
+		res.status(OK).json(newUser?.omitPassword())
+
+	} catch (error) {
+		res.status(INTERNAL_SERVER_ERROR).json({ message: "Internal server Error" })
+		console.log(`Error in Verifying the user ${error}`);
+	}
+}
+
+export const sendResetPasswordHandler = async (req: Request, res: Response) => {
+	try {
+		const userEmail = emailSchema.parse(req.body.email)
+		if (!userEmail) {
+			res.status(UNAUTHORIZED).json({
+				message: "No email Provided"
+			})
+		}
+		const exist = await UserModel.exists({ email: userEmail })
+		if (!exist) {
+			res.status(NOT_FOUND).json({
+				message: "User not found"
+			})
+		}
+
+		const verifyCode = await VerifyModel.create({
+			to: userEmail,
+			type: "resetPassword"
+		})
+		const url = `${APP_ORIGIN}/auth/forgot/reset/${verifyCode._id}`
+		const { error } = await sendMail({
+			to: userEmail,
+			...getPasswordResetTemplate(url)
+		})
+
+		if (error) {
+			console.log("Error in reseting Password", error)
+			res.status(CONFLICT).json({
+				message: "Something went wrong"
+			})
+		}
+
+		res.status(OK).json({
+			message: "reset code send successfuly"
+		})
+
+	} catch (error) {
+		res.status(INTERNAL_SERVER_ERROR).json({ message: "Internal server Error" })
+		console.log(`Error in sending reset code to the user ${error}`);
+	}
+}
+
+export const resetPasswordHandler = async (req: Request, res: Response) => {
+	try {
+		const verifyId = verifyIdSchema.parse(req.params.code)
+		// where do i add the password
+		if (!verifyId) {
+			res.status(NOT_FOUND).json({
+				message: "Verify code not found"
+			})
+			return
+		}
+
+		const verify = await VerifyModel.findById(verifyId)
+		if (!verify) {
+			res.status(UNAUTHORIZED).json({
+				message: "Invalid code"
+			})
+			return
+		}
+
+		if (verify.type !== "resetPassword") {
+			res.status(UNAUTHORIZED).json({
+				message: "Wrong code"
 			})
 			return
 		}
