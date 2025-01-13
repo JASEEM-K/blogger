@@ -131,10 +131,10 @@ export const RegisterPage = () => {
           </div>
         </div>
 
-        <div className="w-full h-10 flex justify-center mt-5">
+        <div className="w-full h-11 flex justify-center mt-5">
           <button
             //disabled={isLogingIn}
-            className="p-1 px-1.5 rounded-md border border-slate-500 hover:border-2 hover:text-blue-500 hover:border-blue-500 hover:shadow-blue-200 shadow-[4px_3px_0_0_rbg(0,0,0,1)]  duration-200 hover:scale-105 "
+            className="p-1 px-1.5 hover:font-semibold rounded-md border border-slate-500 hover:border-2 hover:text-blue-500 hover:border-blue-500 hover:shadow-blue-200 shadow-[4px_3px_0_0_rbg(0,0,0,1)]  duration-200 hover:scale-105 "
             type="submit"
           >
             Register
@@ -143,7 +143,7 @@ export const RegisterPage = () => {
 
       </form >
 
-      <p>Already have an&nbsp;
+      <p className='mt-2'>Already have an&nbsp;
         <a href='/login'
         >account</a></p>
 
