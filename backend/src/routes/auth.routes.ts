@@ -16,7 +16,7 @@ authRouter.get("/email/verify/:code", authenticated, verifyEmailHandler)
 
 authRouter.get("/forgot", authenticated, sendResetPasswordHandler)
 
-authRouter.get("/forgot/reset/:code", authenticated, resetPasswordHandler)
+authRouter.post("/forgot/reset/:code", authenticated, resetPasswordHandler)
 
 
 export default authRouter

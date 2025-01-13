@@ -125,7 +125,7 @@ export const getBlogHandler = async (req: Request, res: Response) => {
 	}
 }
 
-export const getAllBlogHandler = async (req: Request, res: Response) => {
+export const getAllBlogHandler = async (_: Request, res: Response) => {
 	try {
 		const blogs = await BlogModel.find()
 		if (!blogs) {

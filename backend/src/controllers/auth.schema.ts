@@ -16,3 +16,8 @@ export const registerSchema = loginSchema.extend({
 export const verifyIdSchema = z.string()
 
 export const userIdSchema = z.string()
+
+export const resetPasswordSchema = z.object({
+	password: passwordSchema,
+	oldPassword: passwordSchema,
+})

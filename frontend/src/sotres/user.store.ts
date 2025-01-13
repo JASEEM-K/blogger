@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-import { IUser, loginParams, registerParams } from './user.schema'
+import { IUser, loginParams, registerParams, resetParams } from './user.schema'
 import { axiosInstance } from '../lib/axios'
 import { AxiosError } from 'axios'
 import toast from 'react-hot-toast'
@@ -15,7 +15,7 @@ interface UserState {
 	logout: () => Promise<void>,
 	verifyEmail: (code: string) => Promise<void>,
 	sendResetPassword: () => Promise<void>,
-	verifyResetCode: (code: string, password: string) => Promise<void>,
+	verifyResetCode: (code: string, formData: resetParams) => Promise<void>,
 	getUser: (id: string) => Promise<void>,
 	isRegistering: boolean,
 	isLogining: boolean,
@@ -117,10 +117,10 @@ export const useUserStore = create<UserState>((set) => ({
 		}
 	},
 
-	verifyResetCode: async (code: string, password: string) => {
+	verifyResetCode: async (code: string, formData: resetParams) => {
 		set({ isVerifyingPasswrdReset: true })
 		try {
-			const res = await axiosInstance.post(`/auth/forgot/reset/${code}`, password)
+			const res = await axiosInstance.post(`/auth/forgot/reset/${code}`, formData)
 			set({ authUser: res.data })
 		} catch (error) {
 			error instanceof AxiosError && toast.error(error.response?.data.message || "Something went Wrong");

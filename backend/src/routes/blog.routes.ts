@@ -6,7 +6,7 @@ const blogRouter = Router()
 
 blogRouter.post("/create", authenticated, createBlogHandler)
 
-blogRouter.put("/:id", authenticated, updateBlogHandler)
+blogRouter.put("/update/:id", authenticated, updateBlogHandler)
 
 blogRouter.delete("/:id", authenticated, deleteBlogHandler)
 
@@ -18,6 +18,6 @@ blogRouter.get("/like/:id", authenticated, toggleLikeHandler)
 
 blogRouter.get("/comment/like/:id", authenticated, toggleLikeCommentHandle)
 
-blogRouter.get("/comment/:id", authenticated, commentHandler)
+blogRouter.post("/comment/:id", authenticated, commentHandler)
 
 export default blogRouter

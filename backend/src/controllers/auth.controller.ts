@@ -1,5 +1,5 @@
 import { Request, Response } from 'express'
-import { emailSchema, loginSchema, registerSchema, verifyIdSchema } from './auth.schema'
+import { emailSchema, loginSchema, registerSchema, resetPasswordSchema, verifyIdSchema } from './auth.schema'
 import UserModel from '../models/user.model'
 import { CONFLICT, INTERNAL_SERVER_ERROR, NOT_FOUND, OK, UNAUTHORIZED } from '../constants/http'
 import { compareValue } from '../utils/bcrypt'
@@ -200,10 +200,19 @@ export const sendResetPasswordHandler = async (req: Request, res: Response) => {
 export const resetPasswordHandler = async (req: Request, res: Response) => {
 	try {
 		const verifyId = verifyIdSchema.parse(req.params.code)
+		const { password, oldPassword } = resetPasswordSchema.parse(req.body)
 		// where do i add the password
+
 		if (!verifyId) {
 			res.status(NOT_FOUND).json({
 				message: "Verify code not found"
+			})
+			return
+		}
+
+		if (!password || !oldPassword) {
+			res.status(CONFLICT).json({
+				message: "Please provide all fields"
 			})
 			return
 		}
@@ -230,8 +239,26 @@ export const resetPasswordHandler = async (req: Request, res: Response) => {
 			return
 		}
 
-		const newUser = await UserModel.findOneAndUpdate(req.userId, { verified: true }, { new: true })
-		res.status(OK).json(newUser?.omitPassword())
+		const user = await UserModel.findById(req.userId)
+		if (!user) {
+			res.status(NOT_FOUND).json({
+				message: "user not found"
+			})
+			return
+		}
+
+		const isValid = compareValue(oldPassword, user.password)
+		if (!isValid) {
+			res.status(UNAUTHORIZED).json({
+				message: "Invalid password"
+			})
+			return
+		}
+
+		user.password = password
+		await user.save()
+
+		res.status(OK).json(user.omitPassword())
 
 	} catch (error) {
 		res.status(INTERNAL_SERVER_ERROR).json({ message: "Internal server Error" })
