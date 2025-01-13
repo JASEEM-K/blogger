@@ -102,11 +102,12 @@ export const loginHandler = async (req: Request, res: Response) => {
 	}
 }
 
-export const authCheckHandler = async (req: Request, res: Response) => {
+export const logoutHandler = async (_: Request, res: Response) => {
 	try {
-		const userId = req.userId
-		const user = await UserModel.findById(userId)
-		res.status(OK).json(user?.omitPassword())
+		res.clearCookie("jwt")
+		res.status(OK).json({
+			message: "logout successful"
+		})
 	} catch (error) {
 		res.status(INTERNAL_SERVER_ERROR).json({ message: "Internal server Error" })
 		console.log(`Error in authChecking ${error}`);

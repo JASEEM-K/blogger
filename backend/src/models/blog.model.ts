@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 
 interface BlogDocument extends mongoose.Document {
 	_id: mongoose.Types.ObjectId;
+	author: mongoose.Types.ObjectId;
 	title: string;
 	content: string;
 	likes: mongoose.Types.ObjectId[];
@@ -14,6 +15,7 @@ interface BlogDocument extends mongoose.Document {
 const blogSchema = new mongoose.Schema<BlogDocument>({
 	title: { type: String, required: true },
 	content: { type: String, required: true },
+	author: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
 	likes: { type: [mongoose.Schema.Types.ObjectId], ref: "User", default: [] },
 	comment: { type: [mongoose.Schema.Types.ObjectId], ref: "User", default: [] }
 }, { timestamps: true })
