@@ -15,8 +15,9 @@ export interface registerParams extends loginParams {
 	email: String,
 }
 
-export interface loginParams {
+export interface reserParams {
 	password: string,
 	oldPassword: string,
 }
+
 

@@ -3,11 +3,12 @@ import { EditorPage } from "./pages/EditorPage"
 import { LoginPage } from "./pages/loginPage"
 import { RegisterPage } from "./pages/registerPage"
 import { Navbar } from "./components/Navbar"
+import { ThemeProvider } from "./components/theme-provider"
 
 function App() {
 
   return (
-    <>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme" >
 
       <Navbar />
 
@@ -17,7 +18,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
       </Routes>
 
-    </>
+    </ThemeProvider>
   )
 }
 
