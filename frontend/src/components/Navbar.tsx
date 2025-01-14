@@ -13,7 +13,7 @@ export const Navbar = () => {
   const { setTheme, theme } = useTheme()
 
   return (
-    <div className=' flex items-center justify-between px-4 h-12 shadow mb-4'>
+    <div className=' flex items-center justify-between px-4 h-12 shadow '>
 
       <div className='font-bold text-blue-500 cursor-pointer text-xl'>
         <h1 className=''>Blogger</h1>
@@ -25,19 +25,19 @@ export const Navbar = () => {
         {theme === "dark" ?
           <RiSunLine
             onClick={() => setTheme("light")}
-            className='text-blue-500 hover:rotate-45  duration-200 cursor-pointer' />
+            className='text-blue-500 hover:rotate-45  duration-300 cursor-pointer' />
           :
 
           <RiMoonFill
             onClick={() => setTheme("dark")}
-            className='text-blue-500 hover:-rotate-90  duration-200 cursor-pointer' />
+            className='text-blue-500 hover:-rotate-90  duration-300 cursor-pointer' />
         }
 
         <div className='text-blue-500 group cursor-pointer  '>
           <RiUser3Line
-            className=' group-hover:hidden transform transition-all ' />
+            className=' group-hover:hidden transform transition-all hover:-scale-x-100 ' />
           <RiUserFill
-            className=' text-blue-400 hidden group-hover:block hover:scale-105 transform transition-all ' />
+            className=' text-blue-400 hidden group-hover:block hover:-scale-x-100 transform transition-all ' />
         </div>
 
       </div>

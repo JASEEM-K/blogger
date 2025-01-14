@@ -19,5 +19,5 @@ export const userIdSchema = z.string()
 
 export const resetPasswordSchema = z.object({
 	password: passwordSchema,
-	oldPassword: passwordSchema,
+	confirmPassword: passwordSchema,
 })

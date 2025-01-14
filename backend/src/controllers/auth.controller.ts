@@ -45,7 +45,7 @@ export const registerHandler = async (req: Request, res: Response) => {
 			author: newUser._id,
 			type: "emailVerify"
 		})
-		const url = `${APP_ORIGIN}/auth/email/verify/${verifyVal._id}`
+		const url = `${APP_ORIGIN}/email/verify/${verifyVal._id}`
 		const { error } = await sendMail({
 			to: newUser.email,
 			...getVerifyEmailTemplate(url),
@@ -174,7 +174,7 @@ export const sendResetPasswordHandler = async (req: Request, res: Response) => {
 			to: userEmail,
 			type: "resetPassword"
 		})
-		const url = `${APP_ORIGIN}/auth/forgot/reset/${verifyCode._id}`
+		const url = `${APP_ORIGIN}/forgot/reset/${verifyCode._id}`
 		const { error } = await sendMail({
 			to: userEmail,
 			...getPasswordResetTemplate(url)
@@ -200,8 +200,7 @@ export const sendResetPasswordHandler = async (req: Request, res: Response) => {
 export const resetPasswordHandler = async (req: Request, res: Response) => {
 	try {
 		const verifyId = verifyIdSchema.parse(req.params.code)
-		const { password, oldPassword } = resetPasswordSchema.parse(req.body)
-		// where do i add the password
+		const { password, confirmPassword } = resetPasswordSchema.parse(req.body)
 
 		if (!verifyId) {
 			res.status(NOT_FOUND).json({
@@ -210,12 +209,20 @@ export const resetPasswordHandler = async (req: Request, res: Response) => {
 			return
 		}
 
-		if (!password || !oldPassword) {
+		if (password !== confirmPassword) {
 			res.status(CONFLICT).json({
-				message: "Please provide all fields"
+				message: "passwords must be same"
 			})
 			return
 		}
+
+		if (password.length < 6) {
+			res.status(CONFLICT).json({
+				message: "password must be arleast 6 character"
+			})
+			return
+		}
+
 
 		const verify = await VerifyModel.findById(verifyId)
 		if (!verify) {
@@ -243,14 +250,6 @@ export const resetPasswordHandler = async (req: Request, res: Response) => {
 		if (!user) {
 			res.status(NOT_FOUND).json({
 				message: "user not found"
-			})
-			return
-		}
-
-		const isValid = compareValue(oldPassword, user.password)
-		if (!isValid) {
-			res.status(UNAUTHORIZED).json({
-				message: "Invalid password"
 			})
 			return
 		}

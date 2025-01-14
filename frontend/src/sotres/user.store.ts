@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-import { IUser, loginParams, registerParams, reserParams, } from './user.schema'
+import { IUser, loginParams, registerParams, resetParams, sendCodeParams, } from './user.schema'
 import { axiosInstance } from '../lib/axios'
 import { AxiosError } from 'axios'
 import toast from 'react-hot-toast'
@@ -14,8 +14,8 @@ interface UserState {
 	authCheck: () => Promise<void>,
 	logout: () => Promise<void>,
 	verifyEmail: (code: string) => Promise<void>,
-	sendResetPassword: () => Promise<void>,
-	verifyResetCode: (code: string, formData: reserParams) => Promise<void>,
+	sendResetPassword: (formData: sendCodeParams) => Promise<void>,
+	resetPassword: (code: string, formData: resetParams) => Promise<void>,
 	getUser: (id: string) => Promise<void>,
 	isRegistering: boolean,
 	isLogining: boolean,
@@ -23,7 +23,7 @@ interface UserState {
 	isCheckingAuth: boolean,
 	isVerifyingEmail: boolean,
 	isSendingCode: boolean,
-	isVerifyingPasswrdReset: boolean,
+	isResetingPassword: boolean,
 	isGettingUser: boolean,
 }
 
@@ -36,7 +36,7 @@ export const useUserStore = create<UserState>((set) => ({
 	isCheckingAuth: false,
 	isVerifyingEmail: false,
 	isSendingCode: false,
-	isVerifyingPasswrdReset: false,
+	isResetingPassword: false,
 	isGettingUser: false,
 
 	register: async (formData: registerParams) => {
@@ -104,10 +104,10 @@ export const useUserStore = create<UserState>((set) => ({
 		}
 	},
 
-	sendResetPassword: async () => {
+	sendResetPassword: async (formData: sendCodeParams) => {
 		set({ isSendingCode: true })
 		try {
-			await axiosInstance.get(`/auth/forgot`)
+			await axiosInstance.post(`/auth/forgot`, formData)
 			toast.success("reset code send to mail")
 		} catch (error) {
 			error instanceof AxiosError && toast.error(error.response?.data.message || "Something went Wrong");
@@ -117,8 +117,8 @@ export const useUserStore = create<UserState>((set) => ({
 		}
 	},
 
-	verifyResetCode: async (code: string, formData: resetParams) => {
-		set({ isVerifyingPasswrdReset: true })
+	resetPassword: async (code: string, formData: resetParams) => {
+		set({ isResetingPassword: true })
 		try {
 			const res = await axiosInstance.post(`/auth/forgot/reset/${code}`, formData)
 			set({ authUser: res.data })
@@ -126,7 +126,7 @@ export const useUserStore = create<UserState>((set) => ({
 			error instanceof AxiosError && toast.error(error.response?.data.message || "Something went Wrong");
 			set({ authUser: null })
 		} finally {
-			set({ isVerifyingPasswrdReset: false })
+			set({ isResetingPassword: false })
 		}
 	},
 

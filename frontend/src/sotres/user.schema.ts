@@ -15,9 +15,11 @@ export interface registerParams extends loginParams {
 	email: String,
 }
 
-export interface reserParams {
+export interface resetParams {
 	password: string,
-	oldPassword: string,
+	confirmPassword: string,
 }
 
-
+export interface sendCodeParams {
+	email: string,
+}

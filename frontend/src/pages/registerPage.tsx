@@ -2,7 +2,7 @@ import { validateRegisterForm } from '@/lib/formValidation'
 import { useUserStore } from '@/sotres/user.store'
 import { RiEyeCloseLine, RiEyeLine, RiKeyLine, RiMailLine, RiUser3Line } from '@remixicon/react'
 import { FormEvent, useState } from 'react'
-import toast from 'react-hot-toast'
+import { Link } from 'react-router'
 
 
 export const RegisterPage = () => {
@@ -19,8 +19,7 @@ export const RegisterPage = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    validateRegisterForm(formData)
-    register(formData)
+    if (validateRegisterForm(formData)) register(formData)
   }
 
   const toggleShowPassword = () => {
@@ -40,7 +39,7 @@ export const RegisterPage = () => {
   }
 
   return (
-    <div className='flex flex-col font-semibold items-center'>
+    <div className='flex flex-col font-semibold items-center mt-8'>
 
       <h1
         className='sm:text-4xl text-3xl font-bold mb-5'
@@ -151,7 +150,6 @@ export const RegisterPage = () => {
             disabled={isRegistering}
             className="p-1 px-1.5 max-h-11 hover:font-semibold rounded-md border border-slate-500 hover:border-2 hover:text-blue-500 hover:border-blue-500 hover:shadow-blue-500/50 shadow-[4px_3px_0_0_rbg(0,0,0,1)]  duration-200 hover:scale-105 "
             type="submit"
-            onClick={(e) => handleSubmit(e)}
           >
             Register
           </button >
@@ -160,8 +158,11 @@ export const RegisterPage = () => {
       </form >
 
       <p className='mt-2'>Already have an&nbsp;
-        <a className='text-blue-500 hover:underline' href='/login'
-        >account</a></p>
+        <Link
+          to='/login'
+          className='text-blue-500 hover:underline'
+        >account
+        </Link></p>
 
     </div >
   )
