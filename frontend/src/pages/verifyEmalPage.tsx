@@ -33,7 +33,7 @@ export const VerifyEmailPage = () => {
       </h1>
 
       <p className="mt-4">
-        You&apos;r email verification is done.
+        You&apos;r email verification is tone.
       </p>
 
       <p>

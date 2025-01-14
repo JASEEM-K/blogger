@@ -23,6 +23,7 @@ function App() {
         <Route path="/forgot" element={<ForgotPasswordPage />} />
         <Route path="/forgot/reset/:code" element={<ResetPasswordPage />} />
         <Route path="/email/verify/:code" element={<VerifyEmailPage />} />
+
       </Routes>
 
       <Toaster />

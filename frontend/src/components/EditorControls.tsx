@@ -9,6 +9,13 @@ import {
   RiCodeBlock,
   RiCodeLine,
   RiDoubleQuotesR,
+  RiH1,
+  RiH2,
+  RiH3,
+  RiH4,
+  RiH5,
+  RiH6,
+  RiHeading,
   RiImageLine,
   RiItalic,
   RiLink,
@@ -19,6 +26,7 @@ import {
   RiStrikethrough,
   RiUnderline
 } from '@remixicon/react'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
 
 interface Props {
   editor: Editor
@@ -42,130 +50,181 @@ export const EditorControls = ({ editor }: Props) => {
   }, [editor])
 
   return (
-    <div>
+    <div className="">
 
-      <div className="flex gap-2 px-4 " >
+      <div className="flex px-4 bg-secondary py-2 rounded-md border-2  " >
 
-        <button
-          onClick={() => editor.chain().focus().toggleBold().run()}
-          className={`${editor.isActive('bold') ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
+        <div
+          className=" flex items-center gap-2 border-r-2 border-slate-500 px-4 "
         >
-          <RiBold />
-        </button>
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <RiHeading className="cursor-pointer" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              className=" -translate-y-9 ml-20 border-2 rounded-sm gap-2 h-12 shadow flex items-center p-2 bg-secondary"
+            >
+              <RiH1 />
+              <RiH2 />
+              <RiH3 />
+              <RiH4 />
+              <RiH5 />
+              <RiH6 />
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
 
-        <button
-          onClick={() => editor.chain().focus().toggleItalic().run()}
-          className={`${editor.isActive('italic') ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
+        <div
+          className=" flex items-center gap-2 border-r-2 border-slate-500 px-4 "
         >
-          <RiItalic />
-        </button>
-
-        <button
-          onClick={() => editor.chain().focus().toggleStrike().run()}
-          className={`${editor.isActive('strike') ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
-        >
-          <RiStrikethrough />
-        </button>
-
-        <button
-          onClick={() => editor.chain().focus().toggleUnderline().run()}
-          className={`${editor.isActive('underline') ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
-        >
-          <RiUnderline />
-        </button>
-
-        <button
-          onClick={toggleLink}
-          className={`${editor.isActive('link') ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
-        >
-          <RiLink />
-        </button>
-
-        {editor.isActive('link') &&
           <button
-            onClick={() => editor.chain().focus().unsetLink().run()}
-            className={` px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
+            onClick={() => editor.chain().focus().toggleBold().run()}
+            className={`${editor.isActive('bold') ? 'text-purple-500' : ''} `}
           >
-            <RiLinkUnlinkM />
+            <RiBold />
           </button>
-        }
 
-        <button
-          onClick={() => editor.chain().focus().toggleHighlight().run()}
-          className={`${editor.isActive('highlight') ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
-        >
-          <RiMarkPenLine />
-        </button>
+          <button
+            onClick={() => editor.chain().focus().toggleItalic().run()}
+            className={`${editor.isActive('italic') ? 'text-purple-500' : ''} `}
+          >
+            <RiItalic />
+          </button>
 
-        <button
-          onClick={() => editor.chain().focus().toggleCode().run()}
-          className={`${editor.isActive('code') ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
-        >
-          <RiCodeLine />
-        </button>
+          <button
+            onClick={() => editor.chain().focus().toggleStrike().run()}
+            className={`${editor.isActive('strike') ? 'text-purple-500' : ''} `}
+          >
+            <RiStrikethrough />
+          </button>
 
-        <button
-          onClick={() => editor.chain().focus().toggleCodeBlock().run()}
-          className={`${editor.isActive('codeBlock') ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
-        >
-          <RiCodeBlock />
-        </button>
+          <button
+            onClick={() => editor.chain().focus().toggleUnderline().run()}
+            className={`${editor.isActive('underline') ? 'text-purple-500' : ''} `}
+          >
+            <RiUnderline />
+          </button>
 
-        <button
-          onClick={() => editor.chain().focus().toggleBulletList().run()}
-          className={`${editor.isActive('bulletList') ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
-        >
-          <RiListUnordered />
-        </button>
+        </div>
 
-        <button
-          onClick={() => editor.chain().focus().toggleOrderedList().run()}
-          className={`${editor.isActive('orderedList') ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
+        <div
+          className=" flex items-center gap-2 border-r-2 border-slate-500 px-4 "
         >
-          <RiListOrdered2 />
-        </button>
+          <button
+            onClick={toggleLink}
+            className={`${editor.isActive('link') ? 'text-purple-500' : ''} `}
+          >
+            <RiLink />
+          </button>
 
-        <button
-          onClick={() => editor.chain().focus().toggleBlockquote().run()}
-          className={`${editor.isActive('blockquote') ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
-        >
-          <RiDoubleQuotesR />
-        </button>
+          {editor.isActive('link') &&
+            <button
+              onClick={() => editor.chain().focus().unsetLink().run()}
+              className={` `}
+            >
+              <RiLinkUnlinkM />
+            </button>
+          }
 
-        <button
-          onClick={addImage}
-          className={` px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
-        >
-          <RiImageLine />
-        </button>
+          <button
+            onClick={addImage}
+            className={` `}
+          >
+            <RiImageLine />
+          </button>
+        </div>
 
-        <button
-          onClick={() => editor.chain().focus().setTextAlign('left').run()}
-          className={`${editor.isActive({ textAlign: 'left' }) ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
+        <div
+          className=" flex items-center gap-2 border-r-2 border-slate-500 px-4 "
         >
-          <RiAlignLeft />
-        </button>
+          <button
+            onClick={() => editor.chain().focus().toggleHighlight().run()}
+            className={`${editor.isActive('highlight') ? 'text-purple-500' : ''} `}
+          >
+            <RiMarkPenLine />
+          </button>
 
-        <button
-          onClick={() => editor.chain().focus().setTextAlign('center').run()}
-          className={`${editor.isActive({ textAlign: 'center' }) ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
-        >
-          <RiAlignCenter />
-        </button>
+          <button
+            onClick={() => editor.chain().focus().toggleCode().run()}
+            className={`${editor.isActive('code') ? 'text-purple-500' : ''} `}
+          >
+            <RiCodeLine />
+          </button>
 
-        <button
-          onClick={() => editor.chain().focus().setTextAlign('right').run()}
-          className={`${editor.isActive({ textAlign: 'right' }) ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
-        >
-          <RiAlignRight />
-        </button>
+          <button
+            onClick={() => editor.chain().focus().toggleCodeBlock().run()}
+            className={`${editor.isActive('codeBlock') ? 'text-purple-500' : ''} `}
+          >
+            <RiCodeBlock />
+          </button>
 
-        <button
-          onClick={() => editor.chain().focus().setTextAlign('justify').run()}
-          className={`${editor.isActive({ textAlign: 'justify' }) ? 'bg-purple-500' : ''} px-1 hover:bg-slate-500 rounded-md border border-slate-500 `}
+          <button
+            onClick={() => editor.chain().focus().toggleBlockquote().run()}
+            className={`${editor.isActive('blockquote') ? 'text-purple-500' : ''} `}
+          >
+            <RiDoubleQuotesR />
+          </button>
+        </div>
+        <div
+          className=" flex items-center gap-2 border-r-2 border-slate-500 px-4 "
         >
-          <RiAlignJustify />
-        </button>
+          <button
+            onClick={() => editor.chain().focus().toggleBulletList().run()}
+            className={`${editor.isActive('bulletList') ? 'text-purple-500' : ''} `}
+          >
+            <RiListUnordered />
+          </button>
+
+          <button
+            onClick={() => editor.chain().focus().toggleOrderedList().run()}
+            className={`${editor.isActive('orderedList') ? 'text-purple-500' : ''} `}
+          >
+            <RiListOrdered2 />
+          </button>
+        </div>
+
+        <div
+          className=" flex items-center gap-2 px-4 "
+        >
+          <DropdownMenu>
+            <DropdownMenuTrigger>
+              <RiAlignLeft
+                className="cursor-pointer"
+              />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              className=" -translate-y-9  mr-44 shadow border-2 h-12 rounded-sm gap-2 flex items-center p-2 bg-secondary"
+            >
+              <button
+                onClick={() => editor.chain().focus().setTextAlign('left').run()}
+                className={`${editor.isActive({ textAlign: 'left' }) ? 'text-purple-500' : ''} `}
+              >
+                <RiAlignLeft />
+              </button>
+
+              <button
+                onClick={() => editor.chain().focus().setTextAlign('center').run()}
+                className={`${editor.isActive({ textAlign: 'center' }) ? 'text-purple-500' : ''} `}
+              >
+                <RiAlignCenter />
+              </button>
+
+              <button
+                onClick={() => editor.chain().focus().setTextAlign('right').run()}
+                className={`${editor.isActive({ textAlign: 'right' }) ? 'text-purple-500' : ''}`}
+              >
+                <RiAlignRight />
+              </button>
+
+              <button
+                onClick={() => editor.chain().focus().setTextAlign('justify').run()}
+                className={`${editor.isActive({ textAlign: 'justify' }) ? 'text-purple-500' : ''} `}
+              >
+                <RiAlignJustify />
+              </button>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
 
       </div>
 
