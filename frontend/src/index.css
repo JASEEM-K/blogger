@@ -63,7 +63,7 @@
 
   /* Code and preformatted text styles */
   .tiptap code {
-    @apply bg-slate-300  rounded-md text-sm p-2 ; /* Matches your custom variables */
+    @apply bg-primary/15  rounded-md text-sm p-2 ; /* Matches your custom variables */
   }
 
   .tiptap pre {

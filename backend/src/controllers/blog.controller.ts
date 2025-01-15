@@ -108,6 +108,7 @@ export const getBlogHandler = async (req: Request, res: Response) => {
 
 		const blog = await BlogModel.findById(blogId)
 			.populate("comment")
+			.populate("author")
 		if (!blog) {
 			res.status(NOT_FOUND).json({
 				messag: "blog not found"

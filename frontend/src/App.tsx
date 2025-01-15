@@ -8,6 +8,7 @@ import { Toaster } from "react-hot-toast"
 import { VerifyEmailPage } from "./pages/verifyEmalPage"
 import { ForgotPasswordPage } from "./pages/forgotPasswordPage"
 import { ResetPasswordPage } from "./pages/resetPasswordPage"
+import { FullBlogPage } from "./pages/FullBlogPage"
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot" element={<ForgotPasswordPage />} />
+        <Route path="/blog/:blogId" element={<FullBlogPage />} />
         <Route path="/forgot/reset/:code" element={<ResetPasswordPage />} />
         <Route path="/email/verify/:code" element={<VerifyEmailPage />} />
 

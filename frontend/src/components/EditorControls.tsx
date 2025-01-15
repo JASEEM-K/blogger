@@ -64,12 +64,49 @@ export const EditorControls = ({ editor }: Props) => {
             <DropdownMenuContent
               className=" -translate-y-9 ml-20 border-2 rounded-sm gap-2 h-12 shadow flex items-center p-2 bg-secondary"
             >
-              <RiH1 />
-              <RiH2 />
-              <RiH3 />
-              <RiH4 />
-              <RiH5 />
-              <RiH6 />
+
+              <button
+                onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
+                className={`${editor.isActive('heading', { level: 1 }) ? 'text-purple-500' : ''} `}
+              >
+                <RiH1 />
+              </button>
+
+              <button
+                onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
+                className={`${editor.isActive('heading', { level: 2 }) ? 'text-purple-500' : ''} `}
+              >
+                <RiH2 />
+              </button>
+
+              <button
+                onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
+                className={`${editor.isActive('heading', { level: 3 }) ? 'text-purple-500' : ''} `}
+              >
+                <RiH3 />
+              </button>
+
+              <button
+                onClick={() => editor.chain().focus().toggleHeading({ level: 4 }).run()}
+                className={`${editor.isActive('heading', { level: 4 }) ? 'text-purple-500' : ''} `}
+              >
+                <RiH4 />
+              </button>
+
+              <button
+                onClick={() => editor.chain().focus().toggleHeading({ level: 5 }).run()}
+                className={`${editor.isActive('heading', { level: 5 }) ? 'text-purple-500' : ''} `}
+              >
+                <RiH5 />
+              </button>
+
+              <button
+                onClick={() => editor.chain().focus().toggleHeading({ level: 6 }).run()}
+                className={`${editor.isActive('heading', { level: 6 }) ? 'text-purple-500' : ''} `}
+              >
+                <RiH6 />
+              </button>
+
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

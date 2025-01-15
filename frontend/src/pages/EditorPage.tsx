@@ -80,7 +80,7 @@ export const EditorPage = () => {
     return null
   }
   return (
-    <div className='mx-auto max-w-screen-md p-4 '>
+    <div className='mx-auto h-screen max-w-screen-md p-4 '>
 
       <button className='border border-slate-500 rounded-md p-4' >
         save
@@ -88,7 +88,11 @@ export const EditorPage = () => {
 
       <EditorControls editor={editor} />
 
-      <EditorContent className='tiptap ' editor={editor} />
+      <div
+        className=' min-h-screen max-h-screen mt-4 overflow-scroll mx-2 '
+      >
+        <EditorContent className='tiptap editor-content min-h-16 ' editor={editor} />
+      </div>
 
 
     </div>
