@@ -1,17 +1,24 @@
 
 export interface IBlog {
 	_id?: string,
-	author?: string,
+	author?: IUser,
 	title?: string,
 	content?: string,
 	likes?: string[],
-	comment?: IComment,
+	comment?: IComment[],
+}
+
+export interface IUser {
+	_id?: string,
+	username?: string,
+	email?: string,
 }
 
 export interface IComment {
 	_id?: string,
 	author?: string,
 	content?: string,
+	likes?: string[],
 	createdAt?: string,
 }
 
