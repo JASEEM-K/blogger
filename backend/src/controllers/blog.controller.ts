@@ -273,3 +273,27 @@ export const toggleLikeCommentHandle = async (req: Request, res: Response) => {
 	}
 }
 
+export const getUserBlogHandler = async (req: Request, res: Response) => {
+	try {
+		const userId = userIdSchema.parse(req.params.id)
+		if (!userId) {
+			res.status(CONFLICT).json({
+				message: "id not provided"
+			})
+			return
+		}
+
+		const blogs = await BlogModel.find({
+			author: userId
+		})
+
+		res.status(OK).json(blogs)
+
+	} catch (error) {
+		console.log("Error in User blogs ", error)
+		res.status(INTERNAL_SERVER_ERROR).json({
+			message: "Internal server error "
+		})
+	}
+}
+
