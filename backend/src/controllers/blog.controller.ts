@@ -2,8 +2,9 @@ import { Response, Request } from "express";
 import { commentSchema, createBlogSchema, updateBlogSchema } from "./blog.schema";
 import { CONFLICT, INTERNAL_SERVER_ERROR, NOT_FOUND, OK, UNAUTHORIZED } from "../constants/http";
 import BlogModel from "../models/blog.model";
-import { userIdSchema } from "./auth.schema";
+import { imageSchema, userIdSchema } from "./auth.schema";
 import CommentModel from "../models/comment.model";
+import { v2 as cloudinary } from 'cloudinary'
 
 
 export const createBlogHandler = async (req: Request, res: Response) => {
@@ -107,7 +108,7 @@ export const getBlogHandler = async (req: Request, res: Response) => {
 
 		const blog = await BlogModel.findById(blogId)
 			.populate("comment")
-			.populate("author")
+			.populate("author").select("-password")
 		if (!blog) {
 			res.status(NOT_FOUND).json({
 				messag: "blog not found"
@@ -137,6 +138,26 @@ export const getAllBlogHandler = async (_: Request, res: Response) => {
 		res.status(OK).json(blogs)
 	} catch (error) {
 		console.log("Error in  Getting all the blog ", error)
+		res.status(INTERNAL_SERVER_ERROR).json({
+			message: "Internal server error "
+		})
+	}
+}
+
+export const uploadImageHandler = async (req: Request, res: Response) => {
+	try {
+		const image = imageSchema.parse(req.body)
+		if (!image) {
+			res.status(OK).json({
+				message: "Please provid an image"
+			})
+			return
+		}
+		const CloudinaryResponse = await cloudinary.uploader.upload(image)
+
+		res.status(OK).json(CloudinaryResponse.secure_url)
+	} catch (error) {
+		console.log("Error in  uploading image ", error)
 		res.status(INTERNAL_SERVER_ERROR).json({
 			message: "Internal server error "
 		})

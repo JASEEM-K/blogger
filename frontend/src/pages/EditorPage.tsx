@@ -17,6 +17,11 @@ import { validateCreateBlog } from '@/lib/formValidation'
 import toast from 'react-hot-toast'
 
 
+const getImageUrl = async () => {
+  const res = await fetch('/skdjf')
+  return res
+}
+
 
 export const EditorPage = () => {
   const [title, setTitle] = useState("")
@@ -61,6 +66,11 @@ export const EditorPage = () => {
             const fileReader = new FileReader()
 
             fileReader.readAsDataURL(file)
+            toast.promise(getImageUrl(), {
+              success: "image adde",
+              loading: "uploading image",
+              error: "failed to add image"
+            })
             fileReader.onload = () => {
               currentEditor.chain().insertContentAt(currentEditor.state.selection.anchor, {
                 type: 'image',
