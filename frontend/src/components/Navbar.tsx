@@ -75,7 +75,7 @@ export const Navbar = () => {
             </p>
 
             <button
-              className='flex justify-center  bg-blue-500 rounded-md border-2 h-7 w-full border-blue-500 text-white hover:bg-transparent hover:text-blue-500 '
+              className='flex justify-center  bg-blue-500 rounded-md border-2 h-7 w-full border-blue-500 text-white hover:bg-transparent hover:text-blue-500 disabled:cursor-not-allowed  '
               disabled={isLoginout}
               onClick={logout}
             >

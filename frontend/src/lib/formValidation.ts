@@ -80,3 +80,19 @@ export const validateResetPasswordFrom = ({ password, confirmPassword }: resetPa
 	}
 	return true
 }
+
+type createBlogParams = {
+	title: string,
+	content: string,
+}
+
+export const validateCreateBlog = ({ title, content }: createBlogParams) => {
+	if (!title.trim()) {
+		toast.error("please provide a Title")
+		return false
+	} else if (!content.trim()) {
+		toast.error("please provide a content")
+		return false
+	}
+	return true
+}

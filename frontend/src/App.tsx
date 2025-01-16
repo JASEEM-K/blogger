@@ -11,10 +11,15 @@ import { ResetPasswordPage } from "./pages/resetPasswordPage"
 import { FullBlogPage } from "./pages/FullBlogPage"
 import { HomePage } from "./pages/HomePage"
 import { useUserStore } from "./sotres/user.store"
+import { useEffect } from "react"
 
 function App() {
 
-  const { authUser } = useUserStore()
+  const { authUser, authCheck } = useUserStore()
+
+  useEffect(() => {
+    authCheck()
+  }, [])
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme" >

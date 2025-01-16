@@ -1,4 +1,4 @@
-import { } from 'react'
+import { useState } from 'react'
 import {
   EditorContent,
   useEditor
@@ -12,10 +12,15 @@ import Underline from '@tiptap/extension-underline'
 import Link from '@tiptap/extension-link'
 import Typography from '@tiptap/extension-typography'
 import TextAlign from '@tiptap/extension-text-align'
+import { useBlogStore } from '@/sotres/blog.store'
+import { validateCreateBlog } from '@/lib/formValidation'
+import toast from 'react-hot-toast'
 
 
 
 export const EditorPage = () => {
+  const [title, setTitle] = useState("")
+  const { createBlog, isCreating } = useBlogStore()
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -76,22 +81,52 @@ export const EditorPage = () => {
     }
   })
 
+  const formData = {
+    title: title,
+    content: editor?.getHTML() || "",
+  }
+
+  const handleSubmit = () => {
+    if (validateCreateBlog(formData)) {
+      toast.promise(createBlog(formData), {
+        loading: "Creating",
+        success: "Blog created",
+        error: "Something went wrong",
+      })
+    }
+  }
+
+
   if (!editor) {
     return null
   }
   return (
     <div className='mx-auto h-screen max-w-screen-md p-4 '>
 
-      <button className='border border-slate-500 rounded-md p-4' >
-        save
-      </button>
+      <div
+        className='flex gap-2 mb-4 items-center '
+      >
+        <input
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder='Enter Blog Title'
+          className='h-10 w-full border-2 bg-transparent rounded-md px-4 '
+        />
+        <button
+          onClick={handleSubmit}
+          disabled={isCreating}
+          className='flex justify-center items-center font-semibold bg-blue-500 rounded-md border-2 h-11 w-fit px-4 border-blue-500 text-white hover:bg-transparent hover:text-blue-500 disabled:cursor-not-allowed  '
+        >
+          save
+        </button>
+      </div>
 
       <EditorControls editor={editor} />
 
       <div
-        className=' min-h-screen max-h-screen mt-4 overflow-scroll mx-2 '
+        className=' min-h-screen max-h-screen mt-4 overflow-scroll px-1 '
       >
-        <EditorContent className='tiptap editor-content min-h-16 ' editor={editor} />
+        <EditorContent className='tiptap editor-content border-2 px-0' editor={editor} />
       </div>
 
 

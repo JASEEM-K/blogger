@@ -46,9 +46,12 @@ export const useBlogStore = create<BlogState>((set) => ({
 		try {
 			const res = await axiosInstance.post(`/blog/create`, formData)
 			set({ blogs: res.data })
+			return res.data
 		} catch (error) {
-			error instanceof AxiosError && toast.error(error.response?.data.message || "Something went Wrong");
+			const errorMessage = error instanceof AxiosError && error.response?.data.message || "Something went Wrong"
 			set({ blogs: null })
+			toast.error(errorMessage);
+			throw new Error(errorMessage)
 		} finally {
 			set({ isCreating: false })
 		}
