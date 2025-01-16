@@ -39,7 +39,7 @@ export const BlogComponent = ({ title, _id, author, likes, comment }: IBlog) => 
         <button
           disabled={isLikingBlog}
           onClick={() => likeBlog(_id || "")}
-          className={`${likes.includes(authUser?._id) ? "text-red-500" : "text-slate-500/60"}  flex hover:text-red-500 items-center`}
+          className={`${likes.includes(authUser?._id) ? "text-red-500" : ""}  flex hover:text-red-500 items-center`}
         >
           <RiHeartLine />
           {likes.length}

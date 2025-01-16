@@ -24,6 +24,7 @@ export const HomePage = () => {
 
       {blogs && blogs.map((blog) => (
         <BlogComponent
+          key={blog._id}
           likes={blog.likes}
           _id={blog._id}
           comment={blog.comment}

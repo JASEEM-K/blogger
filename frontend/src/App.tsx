@@ -12,6 +12,7 @@ import { FullBlogPage } from "./pages/FullBlogPage"
 import { HomePage } from "./pages/HomePage"
 import { useUserStore } from "./sotres/user.store"
 import { useEffect } from "react"
+import { NotFoundPage } from "./pages/NotFoundPage"
 
 function App() {
 
@@ -35,6 +36,7 @@ function App() {
         <Route path="/blog/:blogId" element={<FullBlogPage />} />
         <Route path="/forgot/reset/:code" element={<ResetPasswordPage />} />
         <Route path="/email/verify/:code" element={<VerifyEmailPage />} />
+        <Route path="*" element={<NotFoundPage />} />
 
       </Routes>
 
