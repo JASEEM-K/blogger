@@ -22,7 +22,7 @@ export const validateRegisterForm = ({ username, email, password, confirmPasswor
 	} else if (!confirmPassword.trim()) {
 		toast.error("please provide confirm Password")
 		return false
-	} else if (password === confirmPassword) {
+	} else if (password !== confirmPassword) {
 		toast.error("passwords do not match")
 		return false
 	} else if (!emailRegex.test(email)) {

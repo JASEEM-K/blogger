@@ -17,7 +17,7 @@ const blogSchema = new mongoose.Schema<BlogDocument>({
 	content: { type: String, required: true },
 	author: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
 	likes: { type: [mongoose.Schema.Types.ObjectId], ref: "User", default: [] },
-	comment: { type: [mongoose.Schema.Types.ObjectId], ref: "User", default: [] }
+	comment: { type: [mongoose.Schema.Types.ObjectId], ref: "Comment", default: [] }
 }, { timestamps: true })
 
 const BlogModel = mongoose.model<BlogDocument>("Blog", blogSchema)

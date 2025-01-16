@@ -12,7 +12,7 @@ import { getPasswordResetTemplate, getVerifyEmailTemplate } from '../utils/email
 
 export const registerHandler = async (req: Request, res: Response) => {
 	try {
-		const { email, username, password } = registerSchema.parse(req.body)
+		const { email, username, password, confirmPassword } = registerSchema.parse(req.body)
 
 		const isExistingUser = await UserModel.exists({
 			$or: [
@@ -30,6 +30,13 @@ export const registerHandler = async (req: Request, res: Response) => {
 		if (password.length < 6 || password.length > 25) {
 			res.status(CONFLICT).json({
 				message: "Password must be legth between 6-25"
+			})
+			return
+		}
+
+		if (password !== confirmPassword) {
+			res.status(CONFLICT).json({
+				message: "passwords do not match"
 			})
 			return
 		}
@@ -84,7 +91,7 @@ export const loginHandler = async (req: Request, res: Response) => {
 			return
 		}
 
-		const isValid = await compareValue(user.password, password)
+		const isValid = await compareValue(password, user.password)
 		if (!isValid) {
 			res.status(UNAUTHORIZED).json({
 				message: "Password is Wrong"
@@ -96,14 +103,20 @@ export const loginHandler = async (req: Request, res: Response) => {
 		res.status(OK).json(user.omitPassword())
 
 	} catch (error) {
-
-		res.status(INTERNAL_SERVER_ERROR).json({ message: "Internal server Error" })
 		console.log(`Error in Login User ${error}`);
+		res.status(INTERNAL_SERVER_ERROR).json({ message: "Internal server Error" })
 	}
 }
 
-export const logoutHandler = async (_: Request, res: Response) => {
+export const logoutHandler = (req: Request, res: Response) => {
 	try {
+		const token = req.cookies.jwt
+		if (!token) {
+			res.status(CONFLICT).json({
+				message: "token not found"
+			})
+			return
+		}
 		res.clearCookie("jwt")
 		res.status(OK).json({
 			message: "logout successful"
@@ -139,14 +152,14 @@ export const verifyEmailHandler = async (req: Request, res: Response) => {
 			return
 		}
 
-		if (verify.author !== req.userId) {
+		if (verify.author?.toString() !== req.userId.toString()) {
 			res.status(UNAUTHORIZED).json({
 				message: "Invalid code: Not a your code"
 			})
 			return
 		}
 
-		const newUser = await UserModel.findOneAndUpdate(req.userId, { verified: true }, { new: true })
+		const newUser = await UserModel.findByIdAndUpdate(req.userId, { verified: true }, { new: true })
 		res.status(OK).json(newUser?.omitPassword())
 
 	} catch (error) {
@@ -171,8 +184,7 @@ export const sendResetPasswordHandler = async (req: Request, res: Response) => {
 		}
 
 		const verifyCode = await VerifyModel.create({
-			to: userEmail,
-			type: "resetPassword"
+			type: "resetPassword",
 		})
 		const url = `${APP_ORIGIN}/forgot/reset/${verifyCode._id}`
 		const { error } = await sendMail({
@@ -235,13 +247,6 @@ export const resetPasswordHandler = async (req: Request, res: Response) => {
 		if (verify.type !== "resetPassword") {
 			res.status(UNAUTHORIZED).json({
 				message: "Wrong code"
-			})
-			return
-		}
-
-		if (verify.author !== req.userId) {
-			res.status(UNAUTHORIZED).json({
-				message: "Invalid code: Not a your code"
 			})
 			return
 		}

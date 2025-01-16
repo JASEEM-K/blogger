@@ -24,16 +24,16 @@ export const Navbar = () => {
         <Link
           to="/home"
         >
-          <h1 className=''>Blogger</h1>
+          <h1 className='hover:animate-pulse '>Blogger</h1>
         </Link>
       </div>
 
-      <div className='flex items-center gap-4 '>
+      <div className='flex items-center gap-4  '>
         <Link
           to="/create"
         >
           <RiAddFill
-            className='text-secondary border-2 border-transparent bg-blue-500 rounded-sm hover:text-blue-500 hover:bg-transparent hover:border-blue-500 duration-200 cursor-pointer'
+            className='text-secondary border-2 border-transparent bg-blue-500 rounded-sm hover:text-blue-500 hover:bg-transparent hover:border-blue-500 duration-200 cursor-pointer hover:scale-125 '
           />
         </Link>
 

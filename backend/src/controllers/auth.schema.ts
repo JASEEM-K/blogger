@@ -11,6 +11,7 @@ export const loginSchema = z.object({
 
 export const registerSchema = loginSchema.extend({
 	email: emailSchema,
+	confirmPassword: passwordSchema,
 })
 
 export const verifyIdSchema = z.string()

@@ -9,8 +9,12 @@ import { VerifyEmailPage } from "./pages/verifyEmalPage"
 import { ForgotPasswordPage } from "./pages/forgotPasswordPage"
 import { ResetPasswordPage } from "./pages/resetPasswordPage"
 import { FullBlogPage } from "./pages/FullBlogPage"
+import { HomePage } from "./pages/HomePage"
+import { useUserStore } from "./sotres/user.store"
 
 function App() {
+
+  const { authUser } = useUserStore()
 
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme" >
@@ -19,9 +23,10 @@ function App() {
 
       <Routes>
         <Route path="/create" element={<EditorPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/login" element={authUser ? <HomePage /> : <LoginPage />} />
+        <Route path="/register" element={authUser ? <HomePage /> : <RegisterPage />} />
         <Route path="/forgot" element={<ForgotPasswordPage />} />
+        <Route path="/home" element={authUser ? <HomePage /> : <LoginPage />} />
         <Route path="/blog/:blogId" element={<FullBlogPage />} />
         <Route path="/forgot/reset/:code" element={<ResetPasswordPage />} />
         <Route path="/email/verify/:code" element={<VerifyEmailPage />} />

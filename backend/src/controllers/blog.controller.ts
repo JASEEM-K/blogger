@@ -16,7 +16,6 @@ export const createBlogHandler = async (req: Request, res: Response) => {
 			return
 		}
 
-
 		const blog = await BlogModel.create({
 			title,
 			content,
@@ -75,7 +74,7 @@ export const deleteBlogHandler = async (req: Request, res: Response) => {
 			return
 		}
 
-		if (blog.author !== req.userId) {
+		if (blog.author.toString() !== req.userId.toString()) {
 			res.status(UNAUTHORIZED).json({
 				message: "not authorized to delete this blog"
 			})
@@ -162,16 +161,16 @@ export const toggleLikeHandler = async (req: Request, res: Response) => {
 			return
 		}
 
-		if (!blog.likes.includes(req.userId)) {
+		if (!blog.likes.map((id) => id.toString()).includes(req.userId.toString())) {
 			await BlogModel.findByIdAndUpdate(blogId, {
-				$push: { likes: req.userId }
-			})
-			blog.likes.push(req.userId)
-		} else if (blog.likes.includes(req.userId)) {
+				$push: { likes: req.userId },
+			});
+			blog.likes.push(req.userId);
+		} else {
 			await BlogModel.findByIdAndUpdate(blogId, {
-				$pull: { likes: req.userId }
-			})
-			blog.likes = blog.likes.filter((like) => like !== req.userId)
+				$pull: { likes: req.userId },
+			});
+			blog.likes = blog.likes.filter((like) => like.toString() !== req.userId.toString());
 		}
 
 		res.status(OK).json(blog)
@@ -220,7 +219,7 @@ export const commentHandler = async (req: Request, res: Response) => {
 		})
 
 		const blog = await BlogModel.findByIdAndUpdate(blogId, {
-			$push: { content: comment._id }
+			$push: { comment: comment._id }
 		}, { new: true })
 
 		res.status(OK).json(blog)
@@ -251,17 +250,18 @@ export const toggleLikeCommentHandle = async (req: Request, res: Response) => {
 			return
 		}
 
-		if (!comment.likes.includes(req.userId)) {
+		if (!comment.likes.map((id) => id.toString()).includes(req.userId.toString())) {
 			await CommentModel.findByIdAndUpdate(commentId, {
 				$push: { likes: req.userId }
 			})
 			comment.likes.push(req.userId)
-		} else if (comment.likes.includes(req.userId)) {
+		} else {
 			await CommentModel.findByIdAndUpdate(commentId, {
 				$pull: { likes: req.userId }
 			})
-			comment.likes = comment.likes.filter((like) => like !== req.userId)
+			comment.likes = comment.likes.filter((like) => like.toString() !== req.userId.toString())
 		}
+
 
 		res.status(OK).json(comment)
 

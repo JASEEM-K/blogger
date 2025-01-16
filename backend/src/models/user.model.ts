@@ -24,7 +24,9 @@ const userSchema = new mongoose.Schema<UserDocument>({
 userSchema.pre("save", async function(next) {
 	if (!this.isModified("password"))
 		return next()
-	this.password === await hashValue(this.password)
+	await hashValue(this.password).then((data) => {
+		this.password = data
+	})
 	next()
 })
 
@@ -34,7 +36,7 @@ userSchema.methods.comparePassword = async function(val: string) {
 
 userSchema.methods.omitPassword = function() {
 	const user = this.toObject()
-	delete user.passwrod;
+	delete user.password
 	return user
 }
 
