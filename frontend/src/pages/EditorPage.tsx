@@ -19,7 +19,7 @@ import toast from 'react-hot-toast'
 
 export const EditorPage = () => {
   const [title, setTitle] = useState("")
-  const { createBlog, isCreating, uploadImage, imageUrl, uploadingDone } = useBlogStore()
+  const { createBlog, isCreating, uploadImage, } = useBlogStore()
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -70,19 +70,19 @@ export const EditorPage = () => {
             const fileReader = new FileReader()
 
             fileReader.readAsDataURL(file)
-            fileReader.onload = () => {
+            fileReader.onload = async () => {
               const formData = {
                 image: fileReader.result as string
               }
-              toast.promise(uploadImage(formData), {
+              const imageURL = await toast.promise(uploadImage(formData), {
                 success: "image adde",
                 loading: "uploading image",
                 error: "failed to add image"
               })
-              uploadingDone && currentEditor.chain().insertContentAt(currentEditor.state.selection.anchor, {
+              currentEditor.chain().insertContentAt(currentEditor.state.selection.anchor, {
                 type: 'image',
                 attrs: {
-                  src: imageUrl,
+                  src: imageURL,
                 },
               }).focus().run()
             }

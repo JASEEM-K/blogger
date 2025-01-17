@@ -1,19 +1,20 @@
 import { useBlogStore } from "@/sotres/blog.store";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router"
 import DOMPurify from 'dompurify'
 import { RiHeartLine } from "@remixicon/react";
 import { useUserStore } from "@/sotres/user.store";
 import toast from "react-hot-toast";
+import { validateCommentForm } from "@/lib/formValidation";
 
 
 export const FullBlogPage = () => {
   const { blogId } = useParams()
-  const { getBlog, isGettingBlog, blog } = useBlogStore()
+  const { getBlog, isGettingBlog, blog, likeComment, isLikingComment, comment, isCommenting } = useBlogStore()
   const { authUser } = useUserStore()
-
-
-
+  const [formData, setFormData] = useState({
+    content: "",
+  })
 
   if (!blogId) {
     toast.error("check the params ")
@@ -30,6 +31,19 @@ export const FullBlogPage = () => {
         Loading
       </div>
     )
+  }
+
+  const handleSubmition = () => {
+    if (validateCommentForm(formData))
+      toast.promise(comment(blog?._id || "", formData), {
+        loading: "commenting",
+        success: "Comment posted",
+        error: "something went wrong",
+      })
+    getBlog(blogId)
+    setFormData({
+      content: ""
+    })
   }
 
   if (!blog || !authUser) {
@@ -56,18 +70,40 @@ export const FullBlogPage = () => {
         dangerouslySetInnerHTML={{ __html: htmlContent }}
       />
 
-      <div className="border-t-2 mt-4 py-2 px-4 ">
+      <div className="border-t-2  mt-4 py-2 px-4">
+
+        <div className="flex justify-between px-5 gap-2 ">
+          <input
+            value={formData.content}
+            onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+            className="h-10 w-full bg-transparent px-4 border-2 outline-none focus:border-blue-500 rounded-md"
+            placeholder="Comment somthing"
+          />
+          <button
+            className='flex justify-center items-center font-semibold bg-blue-500 rounded-md border-2 h-10 w-fit px-4 border-blue-500 text-white hover:bg-transparent hover:text-blue-500 disabled:cursor-not-allowed  '
+            disabled={isCommenting}
+            onClick={handleSubmition}
+          >
+            POST
+          </button>
+        </div>
+
         {blog.comment?.map((cmt) => (
-          <div>
-            <div>
-              <div>{cmt.author} </div>
-              <div> {cmt.content} </div>
+          <div
+            className=" flex justify-between items-center border-b px-4 pb-1 mb-2"
+            key={cmt._id}
+          >
+            <div >
+              <div className="font-mono text-primary/60">{cmt.author?.username} </div>
+              <div className="font-semibold font-mono"> {cmt.content} </div>
             </div>
             <div>
               <button
-                className={`flex flex-col ${cmt.likes?.includes(authUser?._id) ? "text-red-500" : "text-slate-500/60"} `} >
+                onClick={() => likeComment(cmt._id || "")}
+                disabled={isLikingComment}
+                className={`flex items-center gap-0.5 hover:text-red-400 ${cmt.likes?.includes(authUser?._id) ? "text-red-500" : "text-slate-500/60"} `} >
                 <RiHeartLine />
-                {cmt.likes?.length}
+                <p className="-translate-y-0.5">{cmt.likes?.length}</p>
               </button>
             </div>
           </div>

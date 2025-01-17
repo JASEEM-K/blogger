@@ -96,3 +96,15 @@ export const validateCreateBlog = ({ title, content }: createBlogParams) => {
 	}
 	return true
 }
+
+type commentFormParams = {
+	content: string,
+}
+
+export const validateCommentForm = ({ content }: commentFormParams) => {
+	if (!content.trim()) {
+		toast.error("please provide all fields")
+		return false
+	}
+	return true
+}

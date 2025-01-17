@@ -16,7 +16,7 @@ export interface IUser {
 
 export interface IComment {
 	_id?: string,
-	author?: string,
+	author?: IUser,
 	content?: string,
 	likes?: string[],
 	createdAt?: string,
@@ -36,7 +36,7 @@ export interface commentParams {
 	content: string
 }
 
-export interface commentParams {
-	content: string
+export interface uploadParams {
+	image: string
 }
 

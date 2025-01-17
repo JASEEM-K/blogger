@@ -146,6 +146,11 @@ export const useBlogStore = create<BlogState>((set) => ({
 					likes: res.data.likes,
 				}
 			}))
+			set((state) => ({
+				blogs: state.blogs?.map((b) =>
+					b._id === id ? { ...b, likes: res.data.likes } : b
+				),
+			}))
 		} catch (error) {
 			error instanceof AxiosError && toast.error(error.response?.data.message || "Something went Wrong");
 			set({ blog: null })
@@ -161,10 +166,10 @@ export const useBlogStore = create<BlogState>((set) => ({
 			set((state) => ({
 				blog: {
 					...state.blog,
-					comment: {
-						...state.blog?.comment,
-						likes: res.data.likes
-					}
+					comment: state.blog?.comment?.map((cmt) =>
+						cmt._id === id ?
+							{ ...cmt, likes: res.data.likes } : cmt
+					),
 				}
 			}))
 		} catch (error) {

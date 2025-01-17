@@ -5,6 +5,8 @@ import BlogModel from "../models/blog.model";
 import { userIdSchema } from "./auth.schema";
 import CommentModel from "../models/comment.model";
 import { v2 as cloudinary } from 'cloudinary'
+import { populate } from "dotenv";
+import path from "path";
 
 
 export const createBlogHandler = async (req: Request, res: Response) => {
@@ -107,8 +109,17 @@ export const getBlogHandler = async (req: Request, res: Response) => {
 		}
 
 		const blog = await BlogModel.findById(blogId)
-			.populate("comment")
-			.populate("author").select("-password")
+			.populate({
+				path: "comment",
+				populate: {
+					path: "author",
+					select: "-password",
+				}
+			})
+			.populate({
+				path: "author",
+				select: "-password",
+			})
 		if (!blog) {
 			res.status(NOT_FOUND).json({
 				messag: "blog not found"
@@ -129,6 +140,11 @@ export const getBlogHandler = async (req: Request, res: Response) => {
 export const getAllBlogHandler = async (_: Request, res: Response) => {
 	try {
 		const blogs = await BlogModel.find()
+			.populate({
+				path: "author",
+				select: "-password",
+			})
+
 		if (!blogs) {
 			res.status(OK).json({
 				message: "no blogs is available"
