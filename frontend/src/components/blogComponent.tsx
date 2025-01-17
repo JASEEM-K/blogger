@@ -4,6 +4,7 @@ import { useUserStore } from '@/sotres/user.store'
 import { RiChat1Line, RiHeartLine, RiUser6Line } from '@remixicon/react'
 import { } from 'react'
 import { Link } from 'react-router'
+import { DeleteDialog } from './deleteDialog'
 
 export const BlogComponent = ({ title, _id, author, likes, comment }: IBlog) => {
   const { likeBlog, isLikingBlog } = useBlogStore()
@@ -17,15 +18,22 @@ export const BlogComponent = ({ title, _id, author, likes, comment }: IBlog) => 
     )
   }
 
+  console.log(author);
+
+
   return (
     <div className=' shadow max-w-screen-sm rounded-md bg-secondary border-2 '>
 
-      <div className='px-2 py-2'>
-        <div className='font-semibold font-mono px-2 gap-1 py-1 mb-2 flex items-center bg-primary/15 w-fit rounded-md '>
-          <RiUser6Line className='size-5 ' />
-          {author?.username}
-        </div>
+      <div className='px-2 py-2 '>
+        <div className=' flex justify-between'>
+          <div className='font-semibold font-mono px-2 gap-1 py-1 mb-2 flex items-center bg-primary/15 w-fit rounded-md '>
+            <RiUser6Line className='size-5 ' />
+            {author?.username}
+          </div>
 
+          {authUser._id.toString() === author?._id?.toString() && <DeleteDialog id={_id || ""} />}
+
+        </div>
         <Link
           to={`/blog/${_id}`}
         >
@@ -50,7 +58,6 @@ export const BlogComponent = ({ title, _id, author, likes, comment }: IBlog) => 
           {comment.length}
         </div>
       </div>
-
     </div >
   )
 }
