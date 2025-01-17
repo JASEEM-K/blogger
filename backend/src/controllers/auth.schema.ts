@@ -22,3 +22,4 @@ export const resetPasswordSchema = z.object({
 	password: passwordSchema,
 	confirmPassword: passwordSchema,
 })
+

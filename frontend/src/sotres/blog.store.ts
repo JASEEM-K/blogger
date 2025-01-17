@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { commentParams, createParams, IBlog, updateParams } from "./blog.schema";
+import { commentParams, createParams, IBlog, updateParams, uploadParams } from "./blog.schema";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { axiosInstance } from "../lib/axios";
@@ -13,6 +13,7 @@ interface BlogState {
 	deleteBlog: (id: string) => Promise<void>,
 	getAllBlogs: () => Promise<void>,
 	getUserBlogs: (id: string) => Promise<void>,
+	uploadImage: (formData: uploadParams) => Promise<string>,
 	getBlog: (id: string) => Promise<void>,
 	likeBlog: (id: string) => Promise<void>,
 	likeComment: (id: string) => Promise<void>,
@@ -111,6 +112,17 @@ export const useBlogStore = create<BlogState>((set) => ({
 		}
 	},
 
+	uploadImage: async (formData: uploadParams) => {
+		try {
+			const res = await axiosInstance.post(`/blog/upload`, formData)
+			return res.data
+		} catch (error) {
+			const errorMessage = error instanceof AxiosError && error.response?.data.message || "Something went Wrong"
+			toast.error(errorMessage);
+			throw new Error(errorMessage)
+		}
+	},
+
 	getBlog: async (id: string) => {
 		set({ isGettingBlog: true })
 		try {
@@ -151,7 +163,7 @@ export const useBlogStore = create<BlogState>((set) => ({
 					...state.blog,
 					comment: {
 						...state.blog?.comment,
-						likes: res.data.likes,
+						likes: res.data.likes
 					}
 				}
 			}))

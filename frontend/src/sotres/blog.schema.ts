@@ -35,3 +35,8 @@ export interface updateParams {
 export interface commentParams {
 	content: string
 }
+
+export interface commentParams {
+	content: string
+}
+

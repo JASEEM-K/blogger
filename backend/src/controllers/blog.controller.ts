@@ -1,8 +1,8 @@
 import { Response, Request } from "express";
-import { commentSchema, createBlogSchema, updateBlogSchema } from "./blog.schema";
+import { commentSchema, createBlogSchema, imageSchema, updateBlogSchema } from "./blog.schema";
 import { CONFLICT, INTERNAL_SERVER_ERROR, NOT_FOUND, OK, UNAUTHORIZED } from "../constants/http";
 import BlogModel from "../models/blog.model";
-import { imageSchema, userIdSchema } from "./auth.schema";
+import { userIdSchema } from "./auth.schema";
 import CommentModel from "../models/comment.model";
 import { v2 as cloudinary } from 'cloudinary'
 
@@ -146,7 +146,7 @@ export const getAllBlogHandler = async (_: Request, res: Response) => {
 
 export const uploadImageHandler = async (req: Request, res: Response) => {
 	try {
-		const image = imageSchema.parse(req.body)
+		const { image } = imageSchema.parse(req.body)
 		if (!image) {
 			res.status(OK).json({
 				message: "Please provid an image"

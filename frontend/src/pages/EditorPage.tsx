@@ -17,15 +17,9 @@ import { validateCreateBlog } from '@/lib/formValidation'
 import toast from 'react-hot-toast'
 
 
-const getImageUrl = async () => {
-  const res = await fetch('/skdjf')
-  return res
-}
-
-
 export const EditorPage = () => {
   const [title, setTitle] = useState("")
-  const { createBlog, isCreating } = useBlogStore()
+  const { createBlog, isCreating, uploadImage, imageUrl, uploadingDone } = useBlogStore()
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -44,11 +38,21 @@ export const EditorPage = () => {
             const fileReader = new FileReader()
 
             fileReader.readAsDataURL(file)
-            fileReader.onload = () => {
+            fileReader.onload = async () => {
+              const formData = {
+                image: fileReader.result as string
+              }
+              const imageURL = await toast.promise(uploadImage(formData), {
+                success: "image adde",
+                loading: "uploading image",
+                error: "failed to add image"
+              })
+              console.log(imageURL, typeof (formData), formData);
+
               currentEditor.chain().insertContentAt(pos, {
                 type: 'image',
                 attrs: {
-                  src: fileReader.result,
+                  src: imageURL,
                 },
               }).focus().run()
             }
@@ -66,16 +70,19 @@ export const EditorPage = () => {
             const fileReader = new FileReader()
 
             fileReader.readAsDataURL(file)
-            toast.promise(getImageUrl(), {
-              success: "image adde",
-              loading: "uploading image",
-              error: "failed to add image"
-            })
             fileReader.onload = () => {
-              currentEditor.chain().insertContentAt(currentEditor.state.selection.anchor, {
+              const formData = {
+                image: fileReader.result as string
+              }
+              toast.promise(uploadImage(formData), {
+                success: "image adde",
+                loading: "uploading image",
+                error: "failed to add image"
+              })
+              uploadingDone && currentEditor.chain().insertContentAt(currentEditor.state.selection.anchor, {
                 type: 'image',
                 attrs: {
-                  src: fileReader.result,
+                  src: imageUrl,
                 },
               }).focus().run()
             }

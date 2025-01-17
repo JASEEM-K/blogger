@@ -24,6 +24,7 @@ app.use(express.json({
 app.use(cookieParser())
 app.use(express.urlencoded({
 	extended: true,
+	limit: "5mb",
 }))
 app.use(cors({
 	origin: APP_ORIGIN,

@@ -12,7 +12,7 @@ blogRouter.delete("/:id", authenticated, deleteBlogHandler)
 
 blogRouter.get("/", authenticated, getAllBlogHandler)
 
-blogRouter.get("/upload", authenticated, uploadImageHandler)
+blogRouter.post("/upload", authenticated, uploadImageHandler)
 
 blogRouter.get("/:id", authenticated, getBlogHandler)
 

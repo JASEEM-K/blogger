@@ -14,3 +14,7 @@ export const updateBlogSchema = z.object({
 export const commentSchema = z.object({
 	content: z.string()
 })
+
+export const imageSchema = z.object({
+	image: z.string()
+})
