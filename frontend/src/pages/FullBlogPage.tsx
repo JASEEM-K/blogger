@@ -6,6 +6,8 @@ import { RiHeartLine } from "@remixicon/react";
 import { useUserStore } from "@/sotres/user.store";
 import toast from "react-hot-toast";
 import { validateCommentForm } from "@/lib/formValidation";
+import { getDate } from "@/lib/date";
+import { FullBlogSkeleton } from "@/components/skeleton/fullBlogSkeleton";
 
 
 export const FullBlogPage = () => {
@@ -27,13 +29,15 @@ export const FullBlogPage = () => {
 
   if (isGettingBlog) {
     return (
-      <div>
-        Loading
-      </div>
+      <FullBlogSkeleton />
     )
   }
 
   const handleSubmition = () => {
+    if (!authUser) {
+      toast.error("login to comment on post")
+      return
+    }
     if (validateCommentForm(formData))
       toast.promise(comment(blog?._id || "", formData), {
         loading: "commenting",
@@ -46,7 +50,7 @@ export const FullBlogPage = () => {
     })
   }
 
-  if (!blog || !authUser) {
+  if (!blog) {
     return (
       <div className="h-screen w-full font-semibold flex items-center justify-center">
         Something went wrong try to refresh the page 😊
@@ -62,7 +66,10 @@ export const FullBlogPage = () => {
         {blog.title}
       </h1>
       <p className="font-semibold mx-6">
-        {blog.author?.username}
+        Author:&nbsp;{blog.author?.username}
+      </p>
+      <p className="font-semibold mx-6">
+        Date:&nbsp;{getDate(blog?.createdAt || "")}
       </p>
 
 
@@ -101,7 +108,7 @@ export const FullBlogPage = () => {
               <button
                 onClick={() => likeComment(cmt._id || "")}
                 disabled={isLikingComment}
-                className={`flex items-center gap-0.5 hover:text-red-400 ${cmt.likes?.includes(authUser?._id) ? "text-red-500" : "text-slate-500/60"} `} >
+                className={`flex items-center gap-0.5 hover:text-red-400 ${cmt.likes?.includes(authUser?._id || "") ? "text-red-500" : "text-slate-500/60"} `} >
                 <RiHeartLine />
                 <p className="-translate-y-0.5">{cmt.likes?.length}</p>
               </button>
