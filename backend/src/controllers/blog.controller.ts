@@ -1,18 +1,16 @@
 import { Response, Request } from "express";
-import { commentSchema, createBlogSchema, imageSchema, updateBlogSchema } from "./blog.schema";
+import { commentSchema, createBlogSchema, imageSchema, tagSchema, updateBlogSchema } from "./blog.schema";
 import { CONFLICT, INTERNAL_SERVER_ERROR, NOT_FOUND, OK, UNAUTHORIZED } from "../constants/http";
 import BlogModel from "../models/blog.model";
 import { userIdSchema } from "./auth.schema";
 import CommentModel from "../models/comment.model";
 import { v2 as cloudinary } from 'cloudinary'
-import { populate } from "dotenv";
-import path from "path";
 
 
 export const createBlogHandler = async (req: Request, res: Response) => {
 	try {
-		const { title, content } = createBlogSchema.parse(req.body)
-		if (!title.trim() || !content.trim()) {
+		const { title, content, image, tag } = createBlogSchema.parse(req.body)
+		if (!title.trim() || !content.trim() || !image.trim() || !tag.trim()) {
 			res.status(CONFLICT).json({
 				message: "Please provide all the fields"
 			})
@@ -21,7 +19,9 @@ export const createBlogHandler = async (req: Request, res: Response) => {
 
 		const blog = await BlogModel.create({
 			title,
+			titlePic: image,
 			content,
+			tag,
 			author: req.userId,
 		})
 
@@ -36,9 +36,9 @@ export const createBlogHandler = async (req: Request, res: Response) => {
 
 export const updateBlogHandler = async (req: Request, res: Response) => {
 	try {
-		const { title, content } = updateBlogSchema.parse(req.body)
+		const { title, tag, content, image } = updateBlogSchema.parse(req.body)
 		const blogId = userIdSchema.parse(req.params.id)
-		if (!title?.trim() && !content?.trim()) {
+		if (!title?.trim() && !tag?.trim() && !image?.trim() && !content?.trim()) {
 			res.status(CONFLICT).json({
 				message: "atleast give one field "
 			})
@@ -48,6 +48,8 @@ export const updateBlogHandler = async (req: Request, res: Response) => {
 		const blog = await BlogModel.findByIdAndUpdate(blogId, {
 			title,
 			content,
+			tag,
+			titlePic: image,
 		}, { new: true })
 
 		res.status(OK).json(blog)
@@ -174,6 +176,30 @@ export const uploadImageHandler = async (req: Request, res: Response) => {
 		res.status(OK).json(CloudinaryResponse.secure_url)
 	} catch (error) {
 		console.log("Error in  uploading image ", error)
+		res.status(INTERNAL_SERVER_ERROR).json({
+			message: "Internal server error "
+		})
+	}
+}
+
+export const getBlogByTagHandler = async (req: Request, res: Response) => {
+	try {
+		const tag = tagSchema.parse(req.params.tag)
+
+		if (!tag) {
+			res.status(CONFLICT).json({
+				message: "no tag provided"
+			})
+			return
+		}
+
+		const blogs = await BlogModel.find({
+			tag,
+		})
+
+		res.status(OK).json(blogs)
+	} catch (error) {
+		console.log("Error in Getting Blog by Tag", error)
 		res.status(INTERNAL_SERVER_ERROR).json({
 			message: "Internal server error "
 		})

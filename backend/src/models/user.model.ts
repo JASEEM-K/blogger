@@ -6,6 +6,7 @@ export interface UserDocument extends Document {
 	_id: mongoose.Types.ObjectId,
 	username: string;
 	email: string;
+	profilePic: string;
 	password: string;
 	verified: boolean;
 	createdAt: Date;
@@ -17,6 +18,7 @@ export interface UserDocument extends Document {
 const userSchema = new mongoose.Schema<UserDocument>({
 	email: { type: String, required: true, unique: true },
 	username: { type: String, required: true, unique: true },
+	profilePic: { type: String, },
 	password: { type: String, required: true },
 	verified: { type: Boolean, default: false },
 }, { timestamps: true })

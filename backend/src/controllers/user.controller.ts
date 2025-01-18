@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
-import { INTERNAL_SERVER_ERROR, NOT_FOUND, OK, UNAUTHORIZED } from "../constants/http";
+import { CONFLICT, INTERNAL_SERVER_ERROR, NOT_FOUND, OK, UNAUTHORIZED } from "../constants/http";
 import UserModel from "../models/user.model";
 import { userIdSchema } from "./auth.schema";
+import { updateUserSchema } from "./user.schema";
 
 
 export const authCheckHandler = async (req: Request, res: Response) => {
@@ -38,5 +39,22 @@ export const getUserHandler = async (req: Request, res: Response) => {
 	} catch (error) {
 		res.status(INTERNAL_SERVER_ERROR).json({ message: "Internal server Error" })
 		console.log(`Error in Getting User ${error}`);
+	}
+}
+
+
+export const updateUserHandler = async (req: Request, res: Response) => {
+	try {
+		const { username, profilePic } = updateUserSchema.parse(req.body)
+
+		const user = await UserModel.findByIdAndUpdate(req.userId, {
+			username,
+			profilePic
+		}, { new: true })
+
+		res.status(OK).json(user?.omitPassword())
+	} catch (error) {
+		res.status(INTERNAL_SERVER_ERROR).json({ message: "Internal server Error" })
+		console.log(`Error in Updating User ${error}`);
 	}
 }
