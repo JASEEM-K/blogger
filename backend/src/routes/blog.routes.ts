@@ -14,7 +14,7 @@ blogRouter.get("/", authenticated, getAllBlogHandler)
 
 blogRouter.post("/upload", authenticated, uploadImageHandler)
 
-blogRouter.get("/:id", authenticated, getBlogHandler)
+blogRouter.get("/:id", getBlogHandler)
 
 blogRouter.get("/user/:id", authenticated, getUserBlogHandler)
 

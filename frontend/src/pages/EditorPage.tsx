@@ -143,7 +143,7 @@ export const EditorPage = () => {
       <div
         className=' min-h-screen max-h-screen mt-4 overflow-scroll px-1 '
       >
-        <EditorContent className='tiptap editor-content border-2 px-0' editor={editor} />
+        <EditorContent className='tiptap editor-content border-2 px-0 py-0 ' editor={editor} />
       </div>
 
 

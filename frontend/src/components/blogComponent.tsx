@@ -18,8 +18,6 @@ export const BlogComponent = ({ title, _id, author, likes, comment }: IBlog) => 
     )
   }
 
-  console.log(author);
-
 
   return (
     <div className=' shadow max-w-screen-sm rounded-md bg-secondary border-2 '>

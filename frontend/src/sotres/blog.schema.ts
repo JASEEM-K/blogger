@@ -6,6 +6,7 @@ export interface IBlog {
 	content?: string,
 	likes?: string[],
 	comment?: IComment[],
+	createdAt?: string,
 }
 
 export interface IUser {

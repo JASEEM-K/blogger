@@ -1,4 +1,5 @@
 import { BlogComponent } from "@/components/blogComponent"
+import { HomePageSkeleton } from "@/components/skeleton/HomePageSkeleton"
 import { useBlogStore } from "@/sotres/blog.store"
 import { useEffect } from "react"
 
@@ -13,9 +14,7 @@ export const HomePage = () => {
 
   if (isGettingAllBlogs) {
     return (
-      <div className="flex w-full h-screen items-center justify-center">
-        Loading...
-      </div>
+      <HomePageSkeleton />
     )
   }
 
