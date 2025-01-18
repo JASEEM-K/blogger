@@ -41,7 +41,7 @@ export const VerifyEmailPage = () => {
       </p>
 
       <Link
-        to="/home"
+        to="/"
         className="mt-12 border-2 w-40 h-10 flex justify-center items-center border-blue-500 cursor-pointer rounded-md text-blue-500 hover:bg-blue-500 hover:text-secondary duration-200 "
       >
         Get started

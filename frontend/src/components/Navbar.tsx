@@ -22,7 +22,7 @@ export const Navbar = () => {
 
       <div className='font-bold text-blue-500 cursor-pointer text-xl'>
         <Link
-          to="/home"
+          to="/"
         >
           <h1 className='hover:animate-pulse '>Blogger</h1>
         </Link>
