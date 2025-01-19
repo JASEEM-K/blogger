@@ -5,6 +5,7 @@ import BlogModel from "../models/blog.model";
 import { userIdSchema } from "./auth.schema";
 import CommentModel from "../models/comment.model";
 import { v2 as cloudinary } from 'cloudinary'
+import UserModel from "../models/user.model";
 
 
 export const createBlogHandler = async (req: Request, res: Response) => {
@@ -338,16 +339,24 @@ export const toggleLikeCommentHandle = async (req: Request, res: Response) => {
 
 export const getUserBlogHandler = async (req: Request, res: Response) => {
 	try {
-		const userId = userIdSchema.parse(req.params.id)
-		if (!userId) {
+		const username = userIdSchema.parse(req.params.username)
+		if (!username) {
 			res.status(CONFLICT).json({
-				message: "id not provided"
+				message: "username is not provided"
+			})
+			return
+		}
+
+		const user = await UserModel.findOne({ username })
+		if (!user) {
+			res.status(NOT_FOUND).json({
+				message: "user not found"
 			})
 			return
 		}
 
 		const blogs = await BlogModel.find({
-			author: userId
+			author: user._id
 		})
 
 		res.status(OK).json(blogs)

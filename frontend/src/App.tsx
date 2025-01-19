@@ -13,6 +13,8 @@ import { HomePage } from "./pages/HomePage"
 import { useUserStore } from "./sotres/user.store"
 import { useEffect } from "react"
 import { NotFoundPage } from "./pages/NotFoundPage"
+import { ProfilePage } from "./pages/ProfilePage"
+import { TagBlogPage } from "./pages/TagBlogPage"
 
 function App() {
 
@@ -36,6 +38,8 @@ function App() {
         <Route path="/blog/:blogId" element={<FullBlogPage />} />
         <Route path="/forgot/reset/:code" element={<ResetPasswordPage />} />
         <Route path="/email/verify/:code" element={<VerifyEmailPage />} />
+        <Route path="/user/:username" element={<ProfilePage />} />
+        <Route path="/tag/:tag" element={<TagBlogPage />} />
         <Route path="*" element={<NotFoundPage />} />
 
       </Routes>

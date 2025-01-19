@@ -3,7 +3,14 @@ export interface IUser {
 	_id: string,
 	username: string,
 	email: string,
+	profilePic?: string,
 	verify: boolean,
+}
+
+export interface updateUser {
+	username: string,
+	email: string,
+	profilePic: string,
 }
 
 export interface loginParams {

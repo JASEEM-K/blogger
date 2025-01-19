@@ -21,7 +21,7 @@ export const DeleteDialog = ({ id }: Props) => {
   return (
     <Dialog >
       <DialogTrigger>
-        <RiDeleteBin6Line />
+        <RiDeleteBin6Line className='hover:text-red-400' />
       </DialogTrigger>
       <DialogContent
         className='font-semibold flex flex-col items-center max-w-fit  '

@@ -12,7 +12,8 @@ interface BlogState {
 	updateBlog: (id: string, formData: updateParams) => Promise<void>,
 	deleteBlog: (id: string) => Promise<void>,
 	getAllBlogs: () => Promise<void>,
-	getUserBlogs: (id: string) => Promise<void>,
+	getTagBlog: (tag: string) => Promise<void>,
+	getUserBlogs: (username: string) => Promise<void>,
 	uploadImage: (formData: uploadParams) => Promise<string>,
 	getBlog: (id: string) => Promise<void>,
 	likeBlog: (id: string) => Promise<void>,
@@ -99,10 +100,23 @@ export const useBlogStore = create<BlogState>((set) => ({
 		}
 	},
 
-	getUserBlogs: async (id: string) => {
+	getTagBlog: async (tag: string) => {
+		set({ isGettingBlog: true })
+		try {
+			const res = await axiosInstance.get(`/blog/tag/${tag}`)
+			set({ blogs: res.data })
+		} catch (error) {
+			error instanceof AxiosError && toast.error(error.response?.data.message || "Something went Wrong");
+			set({ blogs: null })
+		} finally {
+			set({ isGettingBlog: false })
+		}
+	},
+
+	getUserBlogs: async (username: string) => {
 		set({ isGettingUserBlogs: true })
 		try {
-			const res = await axiosInstance.get(`/blog/user/${id}`)
+			const res = await axiosInstance.get(`/blog/user/${username}`)
 			set({ blogs: res.data })
 		} catch (error) {
 			error instanceof AxiosError && toast.error(error.response?.data.message || "Something went Wrong");

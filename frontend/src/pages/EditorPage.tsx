@@ -18,7 +18,12 @@ import toast from 'react-hot-toast'
 
 
 export const EditorPage = () => {
-  const [title, setTitle] = useState("")
+  const [formData, setFormData] = useState({
+    title: "",
+    titlePic: "",
+    tag: "",
+    content: "",
+  })
   const { createBlog, isCreating, uploadImage, } = useBlogStore()
   const editor = useEditor({
     extensions: [
@@ -98,10 +103,10 @@ export const EditorPage = () => {
     }
   })
 
-  const formData = {
-    title: title,
+  setFormData({
+    ...formData,
     content: editor?.getHTML() || "",
-  }
+  })
 
   const handleSubmit = () => {
     if (validateCreateBlog(formData)) {
@@ -113,10 +118,10 @@ export const EditorPage = () => {
     }
   }
 
-
   if (!editor) {
     return null
   }
+
   return (
     <div className='mx-auto h-screen max-w-screen-md p-4 '>
 
@@ -124,8 +129,8 @@ export const EditorPage = () => {
         className='flex gap-2 mb-4 items-center '
       >
         <input
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={formData.title}
+          onChange={(e) => setFormData({ ...formData, title: e.target.value })}
           placeholder='Enter Blog Title'
           className='h-10 w-full border-2 bg-transparent rounded-md px-4 '
         />

@@ -3,9 +3,8 @@ import {
   RiLogoutBoxLine,
   RiMoonFill,
   RiSunLine,
+  RiUser2Line,
   RiUser3Line,
-  RiUserFill,
-  RiVerifiedBadgeFill,
 } from '@remixicon/react'
 import { } from 'react'
 import { useTheme } from './theme-provider'
@@ -51,38 +50,36 @@ export const Navbar = () => {
         <DropdownMenu>
           <DropdownMenuTrigger className='outline-none' >
 
-            <div className='text-blue-500 group cursor-pointer  '>
-              <RiUser3Line
-                className=' group-hover:hidden transform transition-all hover:-scale-x-100 ' />
-              <RiUserFill
-                className=' text-blue-400 hidden group-hover:block hover:-scale-x-100 transform transition-all ' />
+            <div
+              className=' size-6 rounded-full transform overflow-hidden  transition-all hover:'
+            >
+              <img className='h-full w-full object-cover' src={authUser?.profilePic || "/placeholder.png"} />
             </div>
           </DropdownMenuTrigger>
 
           <DropdownMenuContent
-            className='border-2 px-4 mt-4 mr-3 rounded-md flex flex-col font-semibold space-y-1 py-1 pb-3 w-52 bg-secondary '
+            className='border-2 px-4 mt-4 mr-3 rounded-md gap-2 flex flex-col font-semibold space-y-1 py-1 pb-3 w-52 bg-secondary '
           >
 
-            <div className='flex gap-1 items-center'>
-              <p>{authUser?.username}</p>
-              {authUser?.verify === true && <RiVerifiedBadgeFill
-                className='text-blue-500 size-5 translate-y-0.5'
-              />}
-            </div>
-            <p
-              className='pb-2 max-w-40 break-words'
-            >{authUser?.email}
-            </p>
+            <Link
+              className='flex mt-4 justify-center gap-2 items-center rounded-md h-8 w-full hover:bg-blue-500/20 hover:border-primary/40 disabled:cursor-not-allowed  '
+              to={`/user/${authUser?.username}`}
+            >
+              <RiUser3Line
+                className='size-5 '
+              />
+              Your Profile
+            </Link>
 
             <button
-              className='flex justify-center  bg-blue-500 rounded-md border-2 h-7 w-full border-blue-500 text-white hover:bg-transparent hover:text-blue-500 disabled:cursor-not-allowed  '
+              className='flex mt-4 justify-center gap-2 items-center rounded-md h-8 w-full hover:bg-blue-500/20 hover:border-primary/40 disabled:cursor-not-allowed  '
               disabled={isLoginout}
               onClick={logout}
             >
               <RiLogoutBoxLine
-                className='size-5 translate-y-0.5'
+                className='size-5 -scale-x-100 '
               />
-              Logout
+              Sign out
             </button>
 
           </DropdownMenuContent>

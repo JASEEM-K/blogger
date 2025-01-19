@@ -18,7 +18,7 @@ blogRouter.get("/:id", getBlogHandler)
 
 blogRouter.get("/tag/:tag", getBlogByTagHandler)
 
-blogRouter.get("/user/:id", authenticated, getUserBlogHandler)
+blogRouter.get("/user/:username", authenticated, getUserBlogHandler)
 
 blogRouter.get("/like/:id", authenticated, toggleLikeHandler)
 

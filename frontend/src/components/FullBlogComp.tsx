@@ -1,6 +1,7 @@
 import { getDate } from '@/lib/date'
 import DOMPurify from 'dompurify'
 import { DeleteDialog } from './deleteDialog'
+import { Link } from 'react-router';
 
 interface Props {
   _id: string,
@@ -25,7 +26,7 @@ export const FullBlogComp = ({ _id, comment, showDelete, likes, content, tag, ti
     <div className='grid grid-cols-2 gap-3 mt-4'>
 
       <div className='overflow-hidden rounded-md max-h-56 '>
-        <img src={titlePic || "/placeholder-800x400.jpeg"} />
+        <img className='h-full w-full object-cover' src={titlePic || "/placeholder-800x400.jpeg"} />
       </div>
 
       <div>
@@ -33,10 +34,10 @@ export const FullBlogComp = ({ _id, comment, showDelete, likes, content, tag, ti
         <div className='flex justify-between'>
           <div className="flex font-semibold items-center mt-2 font-mono gap-2 ">
             <div
-              className='transform bg-primary border-2 rounded-full overflow-hidden transition-all hover:'
+              className=' size-8 transform bg-primary border-2 rounded-full overflow-hidden transition-all hover:'
             >
               <img
-                className='flex align-middle size-6 '
+                className='w-full h-full object-cover'
                 src={authorPic || "/placeholder.png"} />
             </div>
             <p className="">
@@ -64,7 +65,11 @@ export const FullBlogComp = ({ _id, comment, showDelete, likes, content, tag, ti
 
         <div className='font-bold font-mono mt-2 align-bottom text-blue-500'>
 
-          {tag}
+          <Link
+            to={`/tag/${tag}`}
+          >
+            {tag}
+          </Link>
 
         </div>
       </div>

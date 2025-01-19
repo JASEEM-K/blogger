@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 
-import { IUser, loginParams, registerParams, resetParams, sendCodeParams, } from './user.schema'
+import { IUser, loginParams, registerParams, resetParams, sendCodeParams, updateUser, } from './user.schema'
 import { axiosInstance } from '../lib/axios'
 import { AxiosError } from 'axios'
 import toast from 'react-hot-toast'
@@ -11,6 +11,7 @@ interface UserState {
 	user: IUser | null,
 	register: (formData: registerParams) => Promise<void>,
 	login: (formData: loginParams) => Promise<void>,
+	updateUser: (formData: updateUser) => Promise<void>,
 	authCheck: () => Promise<void>,
 	logout: () => Promise<void>,
 	verifyEmail: (code: string) => Promise<void>,
@@ -19,6 +20,7 @@ interface UserState {
 	getUser: (id: string) => Promise<void>,
 	isRegistering: boolean,
 	isLogining: boolean,
+	isUpdating: boolean,
 	isLoginout: boolean,
 	isCheckingAuth: boolean,
 	isVerifyingEmail: boolean,
@@ -33,6 +35,7 @@ export const useUserStore = create<UserState>((set) => ({
 	isRegistering: false,
 	isLogining: false,
 	isLoginout: false,
+	isUpdating: false,
 	isCheckingAuth: false,
 	isVerifyingEmail: false,
 	isSendingCode: false,
@@ -61,7 +64,20 @@ export const useUserStore = create<UserState>((set) => ({
 			error instanceof AxiosError && toast.error(error.response?.data.message || "Something went Wrong");
 			set({ authUser: null })
 		} finally {
-			set({ isRegistering: false })
+			set({ isLogining: false })
+		}
+	},
+
+	updateUser: async (formData: updateUser) => {
+		set({ isUpdating: true })
+		try {
+			const res = await axiosInstance.post("/user/update", formData)
+			set({ authUser: res.data })
+		} catch (error) {
+			error instanceof AxiosError && toast.error(error.response?.data.message || "Something went Wrong");
+			set({ authUser: null })
+		} finally {
+			set({ isUpdating: false })
 		}
 	},
 

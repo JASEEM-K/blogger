@@ -60,14 +60,21 @@ export const FullBlogPage = () => {
 
   const htmlContent = DOMPurify.sanitize(blog.content || "")
   return (
-    <div className="mt-8 mx-2 ">
+    <div className="mt-8 mx-auto max-w-screen-md ">
 
       <h1 className="text-4xl font-bold  mx-2">
         {blog.title}
       </h1>
-      <p className="font-semibold mx-6">
-        Author:&nbsp;{blog.author?.username}
-      </p>
+      <div className="flex font-semibold items-center mt-2 font-mono gap-2 mx-6">
+        <div
+          className=' size-6 rounded-full transform overflow-hidden  transition-all hover:'
+        >
+          <img src={authUser?.profilePic || "/placeholder.png"} />
+        </div>
+        <p className="">
+          {blog.author?.username}
+        </p>
+      </div>
       <p className="font-semibold mx-6">
         Date:&nbsp;{getDate(blog?.createdAt || "")}
       </p>
