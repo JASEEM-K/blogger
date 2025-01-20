@@ -1,8 +1,10 @@
+import dotenv from 'dotenv'
+dotenv.config()
 import express, { Response, Request } from 'express'
-import 'dotenv/config'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import { v2 as cloudinary } from 'cloudinary'
+import path from 'path'
 
 import { APP_ORIGIN, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_NAME, NODE_ENV, PORT } from './constants/env'
 import { connectDB } from './config/db'
@@ -10,7 +12,6 @@ import { connectDB } from './config/db'
 import authRouter from './routes/auth.routes'
 import userRouter from './routes/user.routes'
 import blogRouter from './routes/blog.routes'
-import path from 'path'
 
 const app = express()
 cloudinary.config({
@@ -18,7 +19,6 @@ cloudinary.config({
 	api_secret: CLOUDINARY_API_SECRET,
 	cloud_name: CLOUDINARY_NAME,
 })
-
 app.use(express.json({
 	limit: "5mb",
 }))

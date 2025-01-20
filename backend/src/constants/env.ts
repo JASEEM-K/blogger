@@ -1,15 +1,12 @@
-const getEnv = (name: string) => {
-
+function getEnv(name: string) {
 	const value = process.env[name]
 
-	if (!value) {
-		throw new Error(`Missing the Env property ${value}`)
+	if (value === undefined) {
+		throw new Error(`Missing the Env property ${name}`)
 	}
-
 	return value
 }
 
-export const PORT = getEnv("PORT")
 export const APP_ORIGIN = getEnv("APP_ORIGIN")
 export const MONGO_URI = getEnv("MONGO_URI")
 export const JWT_SECRET = getEnv("JWT_SECRET")
@@ -19,5 +16,6 @@ export const FROM_EMAIL = getEnv("FROM_EMAIL")
 export const CLOUDINARY_API_KEY = getEnv("CLOUDINARY_API_KEY")
 export const CLOUDINARY_API_SECRET = getEnv("CLOUDINARY_API_SECRET")
 export const CLOUDINARY_NAME = getEnv("CLOUDINARY_NAME")
+export const PORT = getEnv("PORT")
 
 
