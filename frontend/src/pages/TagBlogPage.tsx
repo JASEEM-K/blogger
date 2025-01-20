@@ -33,7 +33,9 @@ export const TagBlogPage = () => {
       <div>
         {blogs && blogs.map((blog) => (
           <FullBlogComp
+            key={blog._id}
             title={blog.title || ""}
+            authorId={blog.author?._id || ""}
             tag={blog.tag || ""}
             showDelete={authUser?._id.toString() === blog.author?._id?.toString()}
             titlePic={blog.titlePic || ""}
@@ -42,8 +44,7 @@ export const TagBlogPage = () => {
             content={blog.content || ""}
             _id={blog._id || ""}
             author={blog.author?.username || ""}
-            likes={blog.likes?.length || 0}
-            comment={blog.comment?.length || 0}
+            likes={blog.likes || []}
           />
         ))}
       </div>

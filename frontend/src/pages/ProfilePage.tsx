@@ -1,5 +1,4 @@
 import { FullBlogComp } from "@/components/FullBlogComp"
-import { MiniBlogCard } from "@/components/MiniBlogCard"
 import { ProfilePageSkeleton } from "@/components/skeleton/ProfilePageSkeleton"
 import { UpdateProfileDialog } from "@/components/UpdateProfileDialog"
 import { useBlogStore } from "@/sotres/blog.store"
@@ -9,7 +8,7 @@ import { useParams } from "react-router"
 
 
 export const ProfilePage = () => {
-  const { updateUser, isUpdating, authUser } = useUserStore()
+  const { authUser } = useUserStore()
   const { getUserBlogs, isGettingUserBlogs, blogs } = useBlogStore()
   const { username } = useParams()
 
@@ -24,6 +23,7 @@ export const ProfilePage = () => {
       </div>
     )
   }
+
 
 
   return (
@@ -50,79 +50,9 @@ export const ProfilePage = () => {
 
         <div className="grid gap-4  grid-cols-1 sm:grid-cols-3">
 
-          <MiniBlogCard
-            title="Testing full blog comp"
-            tag="tech"
-            titlePic="https://placehold.co/600x400/EEE/31343C"
-            createdAt="2025-01-14T34"
-            authorPic="https://placehold.co/600x400/EEE/31343C"
-            content="<p> wel this is an example for how this will looks like nothing more nothing less, and also i need to check this thing that is how much of content can this handle i would not understand this at all . Wow prefect this right</p>"
-            _id="324234"
-            author="Jessem"
-            likes={["slkdfj", "dslkfj"]}
-            authorId="dslkjf"
-            comment={5}
-          />
-
-          <MiniBlogCard
-            title="Testing full blog comp"
-            tag="tech"
-            titlePic="https://placehold.co/600x400/EEE/31343C"
-            createdAt="2025-01-14T34"
-            authorPic="https://placehold.co/600x400/EEE/31343C"
-            content="<p> wel this is an example for how this will looks like nothing more nothing less, and also i need to check this thing that is how much of content can this handle i would not understand this at all . Wow prefect this right</p>"
-            _id="324234"
-            author="Jessem"
-            likes={["slkdfj", "dslkfj"]}
-            authorId="dslkjf"
-            comment={5}
-          />
-
-          <MiniBlogCard
-            title="Testing full blog comp"
-            tag="tech"
-            titlePic="https://placehold.co/600x400/EEE/31343C"
-            createdAt="2025-01-14T34"
-            authorPic="https://placehold.co/600x400/EEE/31343C"
-            content="<p> wel this is an example for how this will looks like nothing more nothing less, and also i need to check this thing that is how much of content can this handle i would not understand this at all . Wow prefect this right</p>"
-            _id="324234"
-            author="Jessem"
-            likes={["slkdfj", "dslkfj"]}
-            authorId="dslkjf"
-            comment={5}
-          />
-
-          <MiniBlogCard
-            title="Testing full blog comp"
-            tag="tech"
-            titlePic="https://placehold.co/600x400/EEE/31343C"
-            createdAt="2025-01-14T34"
-            authorPic="https://placehold.co/600x400/EEE/31343C"
-            content="<p> wel this is an example for how this will looks like nothing more nothing less, and also i need to check this thing that is how much of content can this handle i would not understand this at all . Wow prefect this right</p>"
-            _id="324234"
-            author="Jessem"
-            likes={["slkdfj", "dslkfj"]}
-            authorId="dslkjf"
-            comment={5}
-          />
-
-          <MiniBlogCard
-            title="Testing full blog comp"
-            tag="tech"
-            titlePic="https://placehold.co/600x400/EEE/31343C"
-            createdAt="2025-01-14T34"
-            authorPic="https://placehold.co/600x400/EEE/31343C"
-            content="<p> wel this is an example for how this will looks like nothing more nothing less, and also i need to check this thing that is how much of content can this handle i would not understand this at all . Wow prefect this right</p>"
-            _id="324234"
-            author="Jessem"
-            likes={["slkdfj", "dslkfj"]}
-            authorId="dslkjf"
-            comment={5}
-          />
-
-
           {blogs && blogs.map((blog) => (
             <FullBlogComp
+              key={blog._id}
               title={blog.title || ""}
               authorId={blog.author?._id || ""}
               tag={blog.tag || ""}

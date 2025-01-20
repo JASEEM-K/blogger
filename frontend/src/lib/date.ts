@@ -1,6 +1,9 @@
 
 
 export const getDate = (createdAt: string) => {
+	if (!createdAt) {
+		return
+	}
 	const dates = createdAt.split('-')
 	switch (dates[1]) {
 		case "01":

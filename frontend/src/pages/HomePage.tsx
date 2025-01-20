@@ -1,3 +1,4 @@
+import { FullBlogComp } from "@/components/FullBlogComp"
 import { MiniBlogCard } from "@/components/MiniBlogCard"
 import { HomePageSkeleton } from "@/components/skeleton/HomePageSkeleton"
 import { useBlogStore } from "@/sotres/blog.store"
@@ -7,16 +8,25 @@ import { useEffect } from "react"
 
 export const HomePage = () => {
 
-  const { blogs, getAllBlogs, isGettingAllBlogs } = useBlogStore()
+  const { blogs, getAllBlogs, getPopularBlog, blog, isGettingBlog, isGettingAllBlogs } = useBlogStore()
   const { authUser } = useUserStore()
 
   useEffect(() => {
     getAllBlogs()
+    getPopularBlog()
   }, [])
 
-  if (isGettingAllBlogs) {
+  if (isGettingAllBlogs || isGettingBlog) {
     return (
       <HomePageSkeleton />
+    )
+  }
+
+  if (!blog) {
+    return (
+      <div className="w-screen h-sreen mb-16 flex items-center">
+        <p className="font-semibold">Please refresh the page</p>
+      </div>
     )
   }
 
@@ -29,21 +39,34 @@ export const HomePage = () => {
         <p><span className="text-red-400" >Knowledge </span> 📙, and <span className="text-red-400" >entertainment</span> 🎬</p>
 
       </div>
+      <FullBlogComp
+        title={blog.title || ""}
+        tag={blog.tag || ""}
+        showDelete={authUser?._id.toString() === blog}
+        authorId={authUser?._id || ""}
+        titlePic={blog.titlePic || ""}
+        createdAt={blog.createdAt || ""}
+        authorPic={blog.author?.profilePic || ""}
+        content={blog.content || ""}
+        _id={blog._id || ""}
+        author={blog.author?.username || ""}
+        likes={blog.likes || []}
+      />
 
       <div className="grid gap-4  grid-cols-1 sm:grid-cols-3">
-        {blogs && blogs.map((blog) => (
+        {blogs && blogs.map((b) => (
           <MiniBlogCard
-            title={blog.title || ""}
-            tag={blog.tag || ""}
+            key={b._id}
+            title={b.title || ""}
+            tag={b.tag || ""}
             authorId={authUser?._id || ""}
-            titlePic={blog.titlePic || ""}
-            createdAt={blog.createdAt || ""}
-            authorPic={blog.author?.profilePic || ""}
-            content={blog.content || ""}
-            _id={blog._id || ""}
-            author={blog.author?.username || ""}
-            likes={blog.likes || []}
-            comment={blog.comment?.length || 0}
+            titlePic={b.titlePic || ""}
+            createdAt={b.createdAt || ""}
+            authorPic={b.author?.profilePic || ""}
+            content={b.content || ""}
+            _id={b._id || ""}
+            author={b.author?.username || ""}
+            likes={b.likes || []}
           />
         ))}
 

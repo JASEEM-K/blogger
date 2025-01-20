@@ -224,7 +224,6 @@ export const EditorPage = () => {
           <div className='grid sm:grid-cols-3 gap-3'>
 
             <MiniBlogCard
-              comment={1}
               title={formData.title || ""}
               authorId={""}
               tag={formData.tag || ""}
@@ -238,7 +237,6 @@ export const EditorPage = () => {
             />
 
             <MiniBlogCard
-              comment={1}
               title={formData.title || ""}
               authorId={""}
               tag={formData.tag || ""}
@@ -252,7 +250,6 @@ export const EditorPage = () => {
             />
 
             <MiniBlogCard
-              comment={1}
               title={formData.title || ""}
               authorId={""}
               tag={formData.tag || ""}

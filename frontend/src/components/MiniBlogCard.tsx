@@ -15,10 +15,9 @@ interface Props {
   titlePic: string,
   title: string,
   likes: string[],
-  comment: number,
 }
 
-export const MiniBlogCard = ({ _id, authorId, comment, likes, content, tag, title, author, createdAt, titlePic, authorPic }: Props) => {
+export const MiniBlogCard = ({ _id, authorId, likes, content, tag, title, author, createdAt, titlePic, authorPic }: Props) => {
   const { isLikingBlog, likeBlog } = useBlogStore()
 
   const htmlContent = DOMPurify.sanitize(content || "")

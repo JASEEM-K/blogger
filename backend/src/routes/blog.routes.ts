@@ -16,6 +16,8 @@ blogRouter.post("/upload", authenticated, uploadImageHandler)
 
 blogRouter.get("/:id", getBlogHandler)
 
+blogRouter.get("/popular", getBlogHandler)
+
 blogRouter.get("/tag/:tag", getBlogByTagHandler)
 
 blogRouter.get("/user/:username", authenticated, getUserBlogHandler)
