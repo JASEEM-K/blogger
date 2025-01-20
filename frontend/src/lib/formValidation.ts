@@ -108,3 +108,18 @@ export const validateCommentForm = ({ content }: commentFormParams) => {
 	}
 	return true
 }
+
+type UpdateProfileParams = {
+	username: string,
+	profilePic: string,
+}
+export const validateUpdateFrom = ({ username, profilePic }: UpdateProfileParams) => {
+	if (!username.trim()) {
+		toast.error("Username not provided")
+		return false
+	} else if (!profilePic.trim()) {
+		toast.error("Profile pic is not provided")
+		return false
+	}
+	return true
+}

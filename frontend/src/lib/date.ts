@@ -47,3 +47,11 @@ export const getDate = (createdAt: string) => {
 	return `${dates[2]} ${dates[1]} ${dates[0]}`
 }
 
+export const getDateNumeric = (createdAt: string) => {
+	const dates = createdAt.split('-')
+	const day = dates[2].split("T")
+	dates[2] = day[0]
+	const year = dates[0].slice(2)
+	return `${dates[2]}-${dates[1]}-${year}`
+}
+

@@ -2,6 +2,8 @@ import { getDate } from '@/lib/date'
 import DOMPurify from 'dompurify'
 import { DeleteDialog } from './deleteDialog'
 import { Link } from 'react-router';
+import { RiHeartLine } from '@remixicon/react';
+import { useBlogStore } from '@/sotres/blog.store';
 
 interface Props {
   _id: string,
@@ -12,15 +14,15 @@ interface Props {
   authorPic: string,
   createdAt: string,
   titlePic: string,
+  authorId: string,
   title: string,
-  likes: number,
-  comment: number,
+  likes: string[],
 }
 
-export const FullBlogComp = ({ _id, comment, showDelete, likes, content, tag, title, author, createdAt, titlePic, authorPic }: Props) => {
+export const FullBlogComp = ({ _id, authorId, showDelete, likes, content, tag, title, author, createdAt, titlePic, authorPic }: Props) => {
+  const { likeBlog, isLikingBlog } = useBlogStore()
 
   const htmlContent = DOMPurify.sanitize(content || "")
-
 
   return (
     <div className='grid grid-cols-2 gap-3 mt-4'>
@@ -53,11 +55,27 @@ export const FullBlogComp = ({ _id, comment, showDelete, likes, content, tag, ti
             </p>
           </div>
 
-          {showDelete && <DeleteDialog id={_id || ""} />}
+          <div>
+
+            {showDelete && <DeleteDialog id={_id || ""} />}
+
+            <button
+              disabled={isLikingBlog}
+              onClick={() => likeBlog(_id || "")}
+              className={`${likes.includes(authorId) ? "text-red-500" : ""}  flex  gap-1 hover:text-red-500 items-center`}
+            >
+              <RiHeartLine />
+            </button>
+
+          </div>
 
         </div>
 
-        <h1 className='font-bold text-3xl mt-1.5'>{title}</h1>
+        <Link
+          to={`/blog/${_id}`}
+        >
+          <h1 className='font-bold text-3xl mt-1.5'>{title}</h1>
+        </Link>
 
         <div className="tiptap mt-3 h-24 overflow-hidden "
           dangerouslySetInnerHTML={{ __html: htmlContent }}
