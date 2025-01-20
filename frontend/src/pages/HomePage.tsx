@@ -1,5 +1,3 @@
-import { BlogComponent } from "@/components/blogComponent"
-import { FullBlogComp } from "@/components/FullBlogComp"
 import { MiniBlogCard } from "@/components/MiniBlogCard"
 import { HomePageSkeleton } from "@/components/skeleton/HomePageSkeleton"
 import { useBlogStore } from "@/sotres/blog.store"
@@ -25,7 +23,7 @@ export const HomePage = () => {
   return (
     <div className="mx-auto my-5 space-y-3 max-w-screen-sm">
 
-      <div className="w-full h-40 rounded-md p-4 flex items-center my-5 ">
+      <div className="w-full h-40 rounded-md p-4 flex flex-col items-center my-5 ">
         <p className="font-mono">Welcome to Blogger </p>
         <p>Craft and narratives ✍️ that ignite <span className="text-red-400" > inspiration </span> 💡,</p>
         <p><span className="text-red-400" >Knowledge </span> 📙, and <span className="text-red-400" >entertainment</span> 🎬</p>

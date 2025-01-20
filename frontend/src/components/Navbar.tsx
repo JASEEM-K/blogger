@@ -3,7 +3,6 @@ import {
   RiLogoutBoxLine,
   RiMoonFill,
   RiSunLine,
-  RiUser2Line,
   RiUser3Line,
 } from '@remixicon/react'
 import { } from 'react'

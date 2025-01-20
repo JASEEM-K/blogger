@@ -25,7 +25,7 @@ export const FullBlogComp = ({ _id, authorId, showDelete, likes, content, tag, t
   const htmlContent = DOMPurify.sanitize(content || "")
 
   return (
-    <div className='grid grid-cols-2 gap-3 mt-4'>
+    <div className='grid sm:grid-cols-2 gap-3 mt-4'>
 
       <div className='overflow-hidden rounded-md max-h-56 '>
         <img className='h-full w-full object-cover' src={titlePic || "/placeholder-800x400.jpeg"} />
@@ -34,7 +34,7 @@ export const FullBlogComp = ({ _id, authorId, showDelete, likes, content, tag, t
       <div>
 
         <div className='flex justify-between'>
-          <div className="flex font-semibold items-center mt-2 font-mono gap-2 ">
+          <div className="flex font-semibold items-center  font-mono  ">
             <div
               className=' size-8 transform bg-primary border-2 rounded-full overflow-hidden transition-all hover:'
             >
@@ -46,7 +46,7 @@ export const FullBlogComp = ({ _id, authorId, showDelete, likes, content, tag, t
               {author}
             </p>
 
-            <p className='font-bold text-lg'>
+            <p className='font-bold text-lg mx-1'>
               -
             </p>
 
@@ -74,10 +74,10 @@ export const FullBlogComp = ({ _id, authorId, showDelete, likes, content, tag, t
         <Link
           to={`/blog/${_id}`}
         >
-          <h1 className='font-bold text-3xl mt-1.5'>{title}</h1>
+          <h1 className='font-bold max-h-19  overflow-hidden text-3xl mt-1'>{title}</h1>
         </Link>
 
-        <div className="tiptap mt-3 h-24 overflow-hidden "
+        <div className="tiptap  h-24 overflow-hidden "
           dangerouslySetInnerHTML={{ __html: htmlContent }}
         />
 
@@ -85,6 +85,7 @@ export const FullBlogComp = ({ _id, authorId, showDelete, likes, content, tag, t
 
           <Link
             to={`/tag/${tag}`}
+            className='mx-2'
           >
             {tag}
           </Link>

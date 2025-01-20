@@ -15,7 +15,7 @@ export const TagBlogPage = () => {
     getTagBlog(tag || "")
   }, [])
 
-  if (true) {
+  if (isGettingBlog) {
     return (
       <div>
         <FullBlogCardSkeleton />

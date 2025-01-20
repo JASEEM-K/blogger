@@ -33,7 +33,7 @@ export const MiniBlogCard = ({ _id, authorId, comment, likes, content, tag, titl
 
       <div className='' >
         <div className='flex justify-between'>
-          <div className="flex font-semibold  items-center  font-mono gap-2 ">
+          <div className="flex font-semibold  items-center  font-mono  ">
             <div
               className='size-8 transform bg-primary border-2 rounded-full overflow-hidden transition-all hover:'
             >
@@ -45,7 +45,7 @@ export const MiniBlogCard = ({ _id, authorId, comment, likes, content, tag, titl
               {author}
             </p>
 
-            <p className='font-bold text-lg'>
+            <p className=' mx-1 font-bold text-lg'>
               -
             </p>
 

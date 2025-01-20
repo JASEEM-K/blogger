@@ -34,7 +34,7 @@ function App() {
         <Route path="/login" element={authUser ? <HomePage /> : <LoginPage />} />
         <Route path="/register" element={authUser ? <HomePage /> : <RegisterPage />} />
         <Route path="/forgot" element={<ForgotPasswordPage />} />
-        <Route path="/" element={authUser ? <HomePage /> : <LoginPage />} />
+        <Route path="/" element={authUser ? <HomePage /> : <HomePage />} />
         <Route path="/blog/:blogId" element={<FullBlogPage />} />
         <Route path="/forgot/reset/:code" element={<ResetPasswordPage />} />
         <Route path="/email/verify/:code" element={<VerifyEmailPage />} />

@@ -1,0 +1,21 @@
+{
+  "name": "blogger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build" : "node install --prefix frontend && node install --prefix backend && node run build --prefix frontend",
+    "start" : "node run start --prefix backend"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JASEEM-K/blogger.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JASEEM-K/blogger/issues"
+  },
+  "homepage": "https://github.com/JASEEM-K/blogger#readme"
+}
