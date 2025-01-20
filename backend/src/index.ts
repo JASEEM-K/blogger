@@ -1,15 +1,16 @@
-import express from 'express'
+import express, { Response, Request } from 'express'
 import 'dotenv/config'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import { v2 as cloudinary } from 'cloudinary'
 
-import { APP_ORIGIN, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_NAME, PORT } from './constants/env'
+import { APP_ORIGIN, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_NAME, NODE_ENV, PORT } from './constants/env'
 import { connectDB } from './config/db'
 
 import authRouter from './routes/auth.routes'
 import userRouter from './routes/user.routes'
 import blogRouter from './routes/blog.routes'
+import path from 'path'
 
 const app = express()
 cloudinary.config({
@@ -36,6 +37,12 @@ app.use("/api/auth", authRouter)
 app.use("/api/user", userRouter)
 app.use("/api/blog", blogRouter)
 
+if (NODE_ENV !== "development") {
+	app.use(express.static(path.join(__dirname, "../frontend/dist")))
+	app.get("*", (req: Request, res: Response) => {
+		res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"))
+	})
+}
 
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`);
