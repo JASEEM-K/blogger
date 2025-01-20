@@ -6,7 +6,6 @@
   "scripts": {
     "build" : "node install --prefix frontend && node install --prefix backend && node run build --prefix frontend",
     "start" : "node run start --prefix backend"
-  "lskdf":"slkd"
   },
   "repository": {
     "type": "git",
