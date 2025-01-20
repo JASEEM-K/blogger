@@ -45,6 +45,6 @@ export interface commentParams {
 }
 
 export interface uploadParams {
-	image: string
+	image: string,
 }
 

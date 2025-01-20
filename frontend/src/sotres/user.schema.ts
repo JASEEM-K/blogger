@@ -9,7 +9,6 @@ export interface IUser {
 
 export interface updateUser {
 	username: string,
-	email: string,
 	profilePic: string,
 }
 
