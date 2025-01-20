@@ -38,9 +38,9 @@ app.use("/api/user", userRouter)
 app.use("/api/blog", blogRouter)
 
 if (NODE_ENV !== "development") {
-	app.use(express.static(path.join(__dirname, "../frontend/dist")))
+	app.use(express.static(path.join(__dirname, "../../frontend/dist")))
 	app.get("*", (req: Request, res: Response) => {
-		res.sendFile(path.join(__dirname, "frontend", "dist", "index.html"))
+		res.sendFile(path.join(__dirname, "../../frontend", "dist", "index.html"))
 	})
 }
 
