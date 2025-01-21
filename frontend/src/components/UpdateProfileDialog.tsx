@@ -5,6 +5,8 @@ import { ChangeEvent, useRef, useState } from "react"
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog"
 import { useBlogStore } from "@/sotres/blog.store"
 import toast from "react-hot-toast"
+import { DialogTitle } from "@radix-ui/react-dialog"
+import { useNavigate } from "react-router"
 
 
 
@@ -16,9 +18,25 @@ export const UpdateProfileDialog = () => {
     profilePic: authUser?.profilePic || "",
   })
   const ImageRef = useRef<HTMLInputElement | null>(null)
+  const navigate = useNavigate()
 
   const handleSubmition = async () => {
-    if (validateUpdateFrom(formData)) updateUser(formData)
+    if (validateUpdateFrom(formData)) {
+      if (formData.username === authUser?.username) {
+        setFormData({ ...formData, username: "" })
+      }
+
+      await toast.promise(updateUser(formData), {
+        success: "image adde",
+        loading: "uploading image",
+        error: "failed to add image"
+      }).then(() => {
+        navigate(`/user/${authUser?.username || formData.username}`)
+      }).catch(() => {
+        toast.error("Something went wrong")
+      })
+
+    }
   }
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -47,17 +65,19 @@ export const UpdateProfileDialog = () => {
     <Dialog >
       <DialogTrigger>
 
-        <button
-          className="px-4 py-2"
+        <div
+          className="px-4 hover:bg-primary/20 rounded-md py-2"
         >
           Edit Profile
-        </button>
+        </div>
 
       </DialogTrigger>
       <DialogContent
         className='font-semibold flex flex-col items-center max-w-fit  '
       >
-        <h1 className='text-3xl px-14 '>Update Profile</h1>
+        <DialogTitle
+          className='text-3xl px-14 '>Update Profile
+        </DialogTitle>
 
         <div className="relative group flex justify-end">
           <div

@@ -71,7 +71,7 @@ export const useUserStore = create<UserState>((set) => ({
 	updateUser: async (formData: updateUser) => {
 		set({ isUpdating: true })
 		try {
-			const res = await axiosInstance.post("/user/update", formData)
+			const res = await axiosInstance.put("/user/update", formData)
 			set({ authUser: res.data })
 		} catch (error) {
 			error instanceof AxiosError && toast.error(error.response?.data.message || "Something went Wrong");

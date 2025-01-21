@@ -10,8 +10,8 @@ import UserModel from "../models/user.model";
 
 export const createBlogHandler = async (req: Request, res: Response) => {
 	try {
-		const { title, content, image, tag } = createBlogSchema.parse(req.body)
-		if (!title.trim() || !content.trim() || !image.trim() || !tag.trim()) {
+		const { title, content, titlePic, tag } = createBlogSchema.parse(req.body)
+		if (!title.trim() || !content.trim() || !titlePic.trim() || !tag.trim()) {
 			res.status(CONFLICT).json({
 				message: "Please provide all the fields"
 			})
@@ -20,7 +20,7 @@ export const createBlogHandler = async (req: Request, res: Response) => {
 
 		const blog = await BlogModel.create({
 			title,
-			titlePic: image,
+			titlePic,
 			content,
 			tag,
 			author: req.userId,
@@ -100,8 +100,47 @@ export const deleteBlogHandler = async (req: Request, res: Response) => {
 	}
 }
 
-
 export const getBlogHandler = async (req: Request, res: Response) => {
+	try {
+		const blogId = userIdSchema.parse(req.params.id)
+		if (!blogId) {
+			res.status(CONFLICT).json({
+				message: "id is not provided"
+			})
+			return
+		}
+
+		const blog = await BlogModel.findById(blogId)
+			.populate({
+				path: "comment",
+				populate: {
+					path: "author",
+					select: "-password",
+				}
+			})
+			.populate({
+				path: "author",
+				select: "-password",
+			})
+
+		if (!blog) {
+			res.status(NOT_FOUND).json({
+				messag: "blog not found"
+			})
+			return
+		}
+
+		res.status(OK).json(blog)
+
+	} catch (error) {
+		console.log("Error in  Getting blog ", error)
+		res.status(INTERNAL_SERVER_ERROR).json({
+			message: "Internal server error "
+		})
+	}
+}
+
+export const getPopularBlog = async (_: Request, res: Response) => {
 	try {
 		const blog = await BlogModel.aggregate([
 			{
@@ -117,7 +156,7 @@ export const getBlogHandler = async (req: Request, res: Response) => {
 				$limit: 1, // Limit the result to the top 1 blog with the most likes
 			},
 		]);
-		res.status(OK).json(blog)
+		res.status(OK).json(blog[0])
 
 	} catch (error) {
 		console.log("Error in Getting Popular Blog ", error)

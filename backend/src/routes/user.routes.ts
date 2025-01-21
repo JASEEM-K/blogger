@@ -8,6 +8,6 @@ userRouter.get("/", authenticated, authCheckHandler)
 
 userRouter.get("/:id", authenticated, getUserHandler)
 
-userRouter.get("/update", authenticated, updateUserHandler)
+userRouter.put("/update", authenticated, updateUserHandler)
 
 export default userRouter

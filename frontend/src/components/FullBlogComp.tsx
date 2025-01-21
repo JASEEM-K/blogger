@@ -42,7 +42,7 @@ export const FullBlogComp = ({ _id, authorId, showDelete, likes, content, tag, t
                 className='w-full h-full object-cover'
                 src={authorPic || "/placeholder.png"} />
             </div>
-            <p className="">
+            <p className="ml-1">
               {author}
             </p>
 

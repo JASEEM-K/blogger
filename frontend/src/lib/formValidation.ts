@@ -114,11 +114,8 @@ type UpdateProfileParams = {
 	profilePic: string,
 }
 export const validateUpdateFrom = ({ username, profilePic }: UpdateProfileParams) => {
-	if (!username.trim()) {
-		toast.error("Username not provided")
-		return false
-	} else if (!profilePic.trim()) {
-		toast.error("Profile pic is not provided")
+	if (!username.trim() && !profilePic.trim()) {
+		toast.error("Please provide atleast one field")
 		return false
 	}
 	return true

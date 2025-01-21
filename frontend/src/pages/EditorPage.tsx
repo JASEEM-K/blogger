@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { ChangeEvent, useState } from 'react'
 import {
   EditorContent,
   useEditor
@@ -19,6 +19,7 @@ import { useUserStore } from '@/sotres/user.store'
 import { FullBlogComp } from '@/components/FullBlogComp'
 import { MiniBlogCard } from '@/components/MiniBlogCard'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@radix-ui/react-dropdown-menu'
+import { useNavigate } from 'react-router'
 
 
 export const EditorPage = () => {
@@ -31,6 +32,7 @@ export const EditorPage = () => {
   const [showPreview, setShowPreview] = useState(false)
   const { createBlog, isCreating, uploadImage, } = useBlogStore()
   const { authUser } = useUserStore()
+  const navigate = useNavigate()
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -116,8 +118,13 @@ export const EditorPage = () => {
         loading: "Creating",
         success: "Blog created",
         error: "Something went wrong",
-      })
+      }).then(() => {
+        navigate('/')
+      }).catch(() => toast.error("Something went wrong"))
     }
+
+
+
   }
 
   if (!editor) {
@@ -134,6 +141,28 @@ export const EditorPage = () => {
 
   const tagsList = ["Tech", "Entertainment", "Political", "Movie", "Games", "Other"]
 
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files
+    if (!files) {
+      return
+    }
+    const file = files[0]
+    const fileReader = new FileReader()
+
+    fileReader.readAsDataURL(file)
+    fileReader.onload = async () => {
+      const ImageUploadFrom = {
+        image: fileReader.result as string
+      }
+      const imageURL = await toast.promise(uploadImage(ImageUploadFrom), {
+        success: "image adde",
+        loading: "uploading image",
+        error: "failed to add image"
+      })
+      setFormData({ ...formData, titlePic: imageURL })
+    }
+  }
+
 
 
 
@@ -145,18 +174,19 @@ export const EditorPage = () => {
         <div
           className=" mb-4 items-center "
         >
-          <div className='flex gap-3'>
-            <input
-              value={formData.title}
-              onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-              placeholder='Enter Blog Title'
-              className='h-10 w-full border-2 bg-transparent rounded-md px-4 '
-            />
+          <input
+            value={formData.title}
+            onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+            placeholder='Enter Blog Title'
+            className='h-10 w-full border-2 bg-transparent rounded-md px-4 '
+          />
 
+          <div className='flex mt-2 items-center gap-3'>
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <input
                   disabled={true}
+                  placeholder='Choose a Tag'
                   className='h-10 w-40 outline-none cursor-pointer border-2 bg-transparent rounded-md px-4 '
                   value={formData.tag}
                 />
@@ -186,6 +216,11 @@ export const EditorPage = () => {
 
               </DropdownMenuContent>
             </DropdownMenu>
+
+            <input
+              type='file'
+              onChange={(e) => handleFileChange(e)}
+            />
           </div>
 
 

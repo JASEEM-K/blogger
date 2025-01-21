@@ -22,28 +22,30 @@ export const HomePage = () => {
     )
   }
 
+
   if (!blog) {
     return (
-      <div className="w-screen h-sreen mb-16 flex items-center">
-        <p className="font-semibold">Please refresh the page</p>
+      <div className="w-screen h-screen mb-16 flex justify-center items-center">
+        <p className="font-semibold">Please refresh the page 😞</p>
       </div>
     )
   }
 
+
   return (
     <div className="mx-auto my-5 space-y-3 max-w-screen-sm">
 
-      <div className="w-full h-40 rounded-md p-4 flex flex-col items-center my-5 ">
+      <div className="w-full bg-secondary h-fit rounded-md p-4 flex flex-col items-center my-5 ">
         <p className="font-mono">Welcome to Blogger </p>
         <p>Craft and narratives ✍️ that ignite <span className="text-red-400" > inspiration </span> 💡,</p>
         <p><span className="text-red-400" >Knowledge </span> 📙, and <span className="text-red-400" >entertainment</span> 🎬</p>
-
       </div>
+
       <FullBlogComp
         title={blog.title || ""}
         tag={blog.tag || ""}
-        showDelete={authUser?._id.toString() === blog}
-        authorId={authUser?._id || ""}
+        showDelete={false}
+        authorId={blog.author?._id || ""}
         titlePic={blog.titlePic || ""}
         createdAt={blog.createdAt || ""}
         authorPic={blog.author?.profilePic || ""}

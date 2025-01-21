@@ -17,7 +17,6 @@ export const FullBlogPage = () => {
   const [formData, setFormData] = useState({
     content: "",
   })
-
   if (!blogId) {
     toast.error("check the params ")
     return
@@ -26,6 +25,7 @@ export const FullBlogPage = () => {
   useEffect(() => {
     getBlog(blogId)
   }, [])
+
 
   if (isGettingBlog) {
     return (

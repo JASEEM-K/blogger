@@ -48,11 +48,11 @@ export const useBlogStore = create<BlogState>((set) => ({
 		set({ isCreating: true })
 		try {
 			const res = await axiosInstance.post(`/blog/create`, formData)
-			set({ blogs: res.data })
+			set({ blog: res.data })
 			return res.data
 		} catch (error) {
 			const errorMessage = error instanceof AxiosError && error.response?.data.message || "Something went Wrong"
-			set({ blogs: null })
+			set({ blog: null })
 			toast.error(errorMessage);
 			throw new Error(errorMessage)
 		} finally {
@@ -154,7 +154,8 @@ export const useBlogStore = create<BlogState>((set) => ({
 	getBlog: async (id: string) => {
 		set({ isGettingBlog: true })
 		try {
-			const res = await axiosInstance.get(`/blog/${id}`)
+			const res = await axiosInstance.get(`/blog/one/${id}`)
+
 			set({ blog: res.data })
 		} catch (error) {
 			error instanceof AxiosError && toast.error(error.response?.data.message || "Something went Wrong");

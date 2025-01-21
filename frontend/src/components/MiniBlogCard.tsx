@@ -40,7 +40,7 @@ export const MiniBlogCard = ({ _id, authorId, likes, content, tag, title, author
                 className='w-full h-full object-cover '
                 src={authorPic || "/placeholder.png"} />
             </div>
-            <p className="">
+            <p className="ml-1">
               {author}
             </p>
 
