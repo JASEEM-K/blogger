@@ -6,7 +6,7 @@ import cookieParser from 'cookie-parser'
 import { v2 as cloudinary } from 'cloudinary'
 import path from 'path'
 
-import { CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_NAME, NODE_ENV, PORT } from './constants/env'
+import { APP_ORIGIN, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET, CLOUDINARY_NAME, NODE_ENV, PORT } from './constants/env'
 import { connectDB } from './config/db'
 
 import authRouter from './routes/auth.routes'
@@ -28,7 +28,7 @@ app.use(express.urlencoded({
 	limit: "5mb",
 }))
 app.use(cors({
-	origin: "*",
+	origin: APP_ORIGIN,
 	credentials: true,
 }))
 
